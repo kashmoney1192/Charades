@@ -815,6 +815,10 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
+        console.log('Charades app script loading...');
+        console.log('React version:', React.version);
+        console.log('ReactDOM:', typeof ReactDOM);
+
         const { useState, useEffect, useRef } = React;
 
         // Game data
@@ -1371,8 +1375,14 @@
             return null;
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<GameApp />);
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<GameApp />);
+            console.log('✓ Charades app mounted successfully');
+        } catch (error) {
+            console.error('ERROR rendering Charades app:', error);
+            document.getElementById('root').innerHTML = `<div style="color: white; font-family: monospace; padding: 20px;"><h1>Error</h1><pre>${error.message}\n${error.stack}</pre></div>`;
+        }
     </script>
 </body>
 </html>
