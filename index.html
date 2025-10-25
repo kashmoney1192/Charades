@@ -51,9 +51,10 @@
 
         #root {
             width: 100%;
-            max-width: 500px;
+            max-width: 100%;
             height: 100%;
             animation: fadeIn 0.6s ease-out;
+            overflow-x: hidden;
         }
 
         @keyframes fadeIn {
@@ -116,12 +117,14 @@
             backdrop-filter: blur(10px);
             border-radius: 30px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-            padding: 30px 20px;
+            padding: 20px 15px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
         /* Landscape mode adjustments */
@@ -531,6 +534,28 @@
 
             .word-container {
                 padding: 40px 20px;
+            }
+
+            .container {
+                padding: 15px 12px;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .title {
+                font-size: 36px;
+            }
+
+            .category-btn {
+                padding: 14px 10px;
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 15px;
+                font-size: 14px;
             }
         }
 
@@ -979,6 +1004,46 @@
             reallife: {
                 name: '👥 Real Life Duos/Trios',
                 words: ['Bonnie and Clyde', 'Sherlock Holmes and Watson', 'The Wright Brothers', 'Twenty One Pilots', 'Tyler Joseph and Josh Dun', 'Hamilton', 'Lin Manuel Miranda', 'George Washington and Alexander Hamilton', 'Laurel and Hardy', 'Abbott and Costello', 'The Beatles', 'John Lennon Paul McCartney', 'The Rolling Stones', 'Mick Jagger and Keith Richards', 'Pink Floyd', 'David Gilmour', 'Led Zeppelin', 'Robert Plant and Jimmy Page', 'Queen', 'Freddie Mercury', 'AC DC', 'Angus Young', 'Kiss', 'Gene Simmons and Paul Stanley', 'Aerosmith', 'Steven Tyler and Joe Perry', 'Guns N Roses', 'Axl Rose', 'Metallica', 'James Hetfield and Lars Ulrich', 'Black Sabbath', 'Ozzy Osbourne and Tony Iommi', 'Iron Maiden', 'Bruce Dickinson', 'Judas Priest', 'Rob Halford', 'Slayer', 'Tom Araya', 'Slipknot', 'Corey Taylor', 'Korn', 'Jonathan Davis', 'Limp Bizkit', 'Fred Durst', 'Deftones', 'Tool', 'Maynard James Keenan', 'System of a Down', 'Serj Tankian', 'Rage Against the Machine', 'Zack de la Rocha', 'Red Hot Chili Peppers', 'Anthony Kiedis and Flea', 'Nirvana', 'Kurt Cobain', 'Soundgarden', 'Chris Cornell', 'Pearl Jam', 'Eddie Vedder', 'Alice in Chains', 'Layne Staley', 'Stone Temple Pilots', 'Scott Weiland', 'Bush', 'Gavin Rossdale', 'Weezer', 'Rivers Cuomo', 'Green Day', 'Billie Joe Armstrong', 'Blink 182', 'Tom DeLonge and Mark Hoppus', 'The Offspring', 'Dexter Holland', 'Sum 41', 'Deryck Whibley', 'Good Charlotte', 'Joel Madden and Benji Madden', 'My Chemical Romance', 'Gerard Way', 'Panic at the Disco', 'Brendon Urie', 'Fall Out Boy', 'Patrick Stump', 'The Black Parade', 'One Direction', 'Harry Styles', 'Backstreet Boys', 'New Kids on the Block', 'Boyz II Men', 'Hanson', 'Jonas Brothers', 'Kevin Jonas Joe Jonas Nick Jonas', 'BTS', 'EXO', 'Blackpink', 'TWICE', 'Stray Kids', 'Seventeen', 'IVE', 'NewJeans', 'Destiny Child', 'Beyoncé', 'Salt N Pepa', 'TLC', 'Left Eye and T Boz', 'En Vogue', 'The Supremes', 'Diana Ross', 'The Spice Girls', 'Bananarama', 'Eurythmics', 'Annie Lennox and Dave Stewart', 'Blondie', 'Debbie Harry', 'The Pretenders', 'Chrissie Hynde', 'Duran Duran', 'Depeche Mode', 'Dave Gahan and Martin Gore', 'New Order', 'Pet Shop Boys', 'Neil Tennant and Chris Lowe', 'Kraftwerk', 'Human League', 'Soft Cell', 'Ultravox', 'Visage', 'Siouxsie and the Banshees', 'Siouxsie Sioux', 'The Cure', 'Robert Smith', 'The Smiths', 'Morrissey and Johnny Marr', 'Joy Division', 'Ian Curtis', 'Bauhaus', 'Peter Murphy', 'Sisters of Mercy', 'Andrew Eldritch', 'Insane Clown Posse', 'Violent J and Shaggy 2 Dope', 'Elvis Presley', 'Elvis and Priscilla', 'Frank Sinatra and Dean Martin', 'Rat Pack', 'The Doors', 'Jim Morrison', 'Jimi Hendrix', 'Janis Joplin', 'Bob Dylan', 'Johnny Cash', 'Johnny and June Carter', 'Willie Nelson and Waylon Jennings', 'Dolly Parton', 'Patsy Cline', 'Hank Williams', 'George Jones', 'Tammy Wynette', 'Aretha Franklin', 'Whitney Houston', 'Mariah Carey', 'Celine Dion', 'Christina Aguilera', 'Michael Jackson', 'Michael Jackson and Janet Jackson', 'The Jackson Five', 'Prince', 'Madonna', 'Lady Gaga', 'Britney Spears', 'Christina Aguilera and Britney Spears', 'Rihanna', 'Shakira', 'Jennifer Lopez', 'Cardi B and Megan Thee Stallion', 'Nicki Minaj', 'Ariana Grande', 'Taylor Swift', 'Harry Styles and Taylor Swift', 'Drake', 'The Weeknd', 'Post Malone', 'Ed Sheeran', 'Coldplay', 'Chris Martin', 'Sheryl Crow', 'Alanis Morissette', 'No Doubt', 'Gwen Stefani', 'Katy Perry', 'Miley Cyrus', 'Justin Bieber', 'Selena Gomez and Justin Bieber', 'Billie Eilish', 'The Black Keys', 'Kings of Leon', 'The Killers', 'Brandon Flowers', 'Imagine Dragons', 'Florence and the Machine', 'Florence Welch', 'Grimes', 'Elon Musk and Grimes', 'Bill Gates', 'Steve Jobs', 'Steve Wozniak', 'Mark Zuckerberg', 'Sergey Brin and Larry Page', 'Google Founders', 'Elon Musk', 'Oprah Winfrey', 'Ellen DeGeneres', 'The Trump Siblings', 'Donald Trump', 'Kim Kardashian and Kanye West', 'Kanye West', 'Ryan Reynolds and Blake Lively', 'Dwayne Johnson', 'Henry Cavill', 'Tom Cruise', 'Brad Pitt', 'Leonardo DiCaprio', 'Johnny Depp', 'Will Smith', 'Morgan Freeman', 'Samuel L Jackson', 'Denzel Washington', 'Tom Hanks', 'Meryl Streep', 'Robert Downey Jr', 'Chris Hemsworth', 'Chris Evans', 'Scarlett Johansson', 'Chris Pratt', 'Zendaya', 'Timothée Chalamet', 'Margot Robbie', 'Angelina Jolie', 'Jennifer Aniston', 'Beyoncé and Jay Z', 'Barack Obama and Michelle Obama', 'Hillary Clinton and Bill Clinton', 'Prince William and Prince Harry', 'Kate Middleton and Prince William', 'Meghan Markle and Prince Harry', 'Cristiano Ronaldo', 'Lionel Messi', 'Pelé', 'Diego Maradona', 'Maradona and Pelé', 'Muhammad Ali', 'Serena Williams and Venus Williams', 'The Williams Sisters', 'Martina Navratilova and Chris Evert', 'Simone Biles', 'Usain Bolt', 'Roger Federer and Rafael Nadal']
+            },
+            sports: {
+                name: '⚽ Sports & Athletes',
+                words: ['Soccer', 'Football', 'Basketball', 'Baseball', 'Tennis', 'Golf', 'Hockey', 'Rugby', 'Cricket', 'Volleyball', 'Badminton', 'Table Tennis', 'Skiing', 'Snowboarding', 'Ice Skating', 'Figure Skating', 'Swimming', 'Diving', 'Gymnastics', 'Track and Field', 'Running', 'Marathon', 'Sprinting', 'Cycling', 'BMX', 'Skateboarding', 'Surfing', 'Skateboarding', 'Boxing', 'MMA', 'Wrestling', 'Judo', 'Karate', 'Taekwondo', 'Kung Fu', 'Archery', 'Shooting', 'Weightlifting', 'Powerlifting', 'CrossFit', 'Yoga', 'Pilates', 'Rowing', 'Canoeing', 'Kayaking', 'Sailing', 'Windsurfing', 'Kitesurfing', 'Skydiving', 'Bungee Jumping', 'Rock Climbing', 'Mountaineering', 'Hiking', 'Trail Running', 'Triathlon', 'Decathlon', 'Pentathlon', 'Equestrian', 'Horse Racing', 'Polo', 'Lacrosse', 'Field Hockey', 'American Football', 'Basketball', 'Volleyball', 'Badminton', 'Handball', 'Squash', 'Racquetball', 'Curling', 'Bobsleigh', 'Luge', 'Skeleton', 'Speed Skating', 'Short Track', 'Darts', 'Billiards', 'Pool', 'Snooker', 'Bowling', 'Cornhole', 'Horseshoes', 'Bocce Ball', 'Competitive Eating', 'Curling', 'Dodgeball', 'Kickball', 'Pickleball', 'Padel Tennis', 'Kin-Ball', 'Sepak Takraw', 'Hurling', 'Aussie Rules Football', 'Gridiron', 'Canadian Football', 'Rugby League', 'Rugby Union', 'Netball', 'Shinty', 'Camogie', 'Hurley', 'Stick Fighting', 'Stone Put', 'Hammer Throw', 'Javelin', 'Discus', 'Shot Put', 'Long Jump', 'High Jump', 'Triple Jump', 'Pole Vault', 'Steeplechase']
+            },
+            animals: {
+                name: '🐾 Pets & Domestic Animals',
+                words: ['Dog', 'Cat', 'Hamster', 'Guinea Pig', 'Rabbit', 'Ferret', 'Rat', 'Mouse', 'Chinchilla', 'Degu', 'Gerbil', 'Parrot', 'Budgie', 'Cockatiel', 'Canary', 'Finch', 'Lovebird', 'Macaw', 'African Grey Parrot', 'Tortoise', 'Turtle', 'Bearded Dragon', 'Corn Snake', 'Ball Python', 'Leopard Gecko', 'Crested Gecko', 'Iguana', 'Anole', 'Tarantula', 'Millipede', 'Scorpion', 'Hermit Crab', 'Fiddler Crab', 'Gold Fish', 'Betta Fish', 'Tetra', 'Guppy', 'Pleco', 'Angelfish', 'Discus Fish', 'Koi', 'Pufferfish', 'Seahorse', 'Axolotl', 'Newt', 'Frog', 'Toad', 'Hedgehog', 'Porcupine', 'Pig', 'Goat', 'Sheep', 'Horse', 'Donkey', 'Mule', 'Cow', 'Bull', 'Buffalo', 'Llama', 'Alpaca', 'Emu', 'Ostrich', 'Peacock', 'Pheasant', 'Chicken', 'Rooster', 'Hen', 'Duck', 'Goose', 'Swan', 'Turkey', 'Quail', 'Dove', 'Pigeon', 'Owl', 'Eagle', 'Hawk', 'Falcon', 'Raven', 'Crow', 'Parrot', 'Macaw', 'Cockatoo', 'Fish Tank', 'Bird Cage', 'Pet Carrier', 'Dog Bed', 'Cat Litter Box', 'Scratching Post', 'Pet Food', 'Dog Bone', 'Cat Toy', 'Bird Seed', 'Aquarium', 'Vivarium', 'Terrarium', 'Pet Grooming', 'Veterinarian', 'Pet Training', 'Obedience']
+            },
+            emotions: {
+                name: '😊 Emotions & Feelings',
+                words: ['Happy', 'Sad', 'Angry', 'Frustrated', 'Excited', 'Nervous', 'Anxious', 'Calm', 'Peaceful', 'Grateful', 'Disappointed', 'Confused', 'Embarrassed', 'Proud', 'Jealous', 'Envious', 'Lonely', 'Loved', 'Hurt', 'Betrayed', 'Hopeful', 'Hopeless', 'Confident', 'Insecure', 'Brave', 'Scared', 'Terrified', 'Relieved', 'Disgusted', 'Surprised', 'Astonished', 'Shocked', 'Offended', 'Defensive', 'Guilty', 'Ashamed', 'Regretful', 'Satisfied', 'Content', 'Melancholy', 'Cheerful', 'Gloomy', 'Grumpy', 'Irritable', 'Bitter', 'Resentful', 'Appreciative', 'Compassionate', 'Sympathetic', 'Empathetic', 'Affectionate', 'Tender', 'Passionate', 'Indifferent', 'Apathetic', 'Motivated', 'Unmotivated', 'Energetic', 'Lethargic', 'Optimistic', 'Pessimistic', 'Nostalgic', 'Homesick', 'Adventurous', 'Cautious', 'Reckless', 'Thoughtful', 'Careless', 'Paranoid', 'Trusting', 'Suspicious', 'Serene', 'Turbulent', 'Ambivalent', 'Resolute', 'Conflicted', 'Determined', 'Hesitant', 'Fervent', 'Apathetic', 'Exhilarated', 'Depressed', 'Manic', 'Hysterical', 'Frantic', 'Composed', 'Stoic', 'Emotional', 'Cold', 'Warm', 'Icy', 'Bubbly', 'Dull', 'Vivacious', 'Sullen', 'Wistful', 'Wry', 'Sardonic', 'Cynical']
+            },
+            superheroes: {
+                name: '🦸 Superheroes & Villains',
+                words: ['Superman', 'Batman', 'Wonder Woman', 'The Flash', 'Green Lantern', 'Aquaman', 'Black Panther', 'Spider Man', 'Iron Man', 'Captain America', 'Thor', 'Hulk', 'Black Widow', 'Hawkeye', 'Doctor Strange', 'Scarlet Witch', 'Vision', 'Ant Man', 'The Wasp', 'Star Lord', 'Rocket Raccoon', 'Groot', 'Gamora', 'Drax', 'The Guardians', 'Blade', 'Ghost Rider', 'Daredevil', 'Luke Cage', 'Iron Fist', 'Jessica Jones', 'The Punisher', 'Deadpool', 'Cable', 'X Men', 'Wolverine', 'Cyclops', 'Storm', 'Jean Grey', 'Professor X', 'Magneto', 'Rogue', 'Gambit', 'Nightcrawler', 'Colossus', 'Mystique', 'Sentinels', 'Fantastic Four', 'Mr Fantastic', 'Invisible Woman', 'Human Torch', 'The Thing', 'Joker', 'Lex Luthor', 'Thanos', 'Loki', 'Darth Vader', 'Voldemort', 'The Dark Lord', 'Maleficent', 'Cruella', 'Ursula', 'Scar', 'Hades', 'Jafar', 'Green Goblin', 'Doctor Octopus', 'Venom', 'Carnage', 'Thanos', 'Ronan', 'Loki', 'Hela', 'Dormammu', 'Kaecilius', 'Vulture', 'Shocker', 'Scorpion', 'Rhino', 'Kingpin', 'Sinister Six', 'Hydra', 'Negan', 'The Others', 'Cersei Lannister', 'Tywin Lannister', 'Joffrey Baratheon', 'Ramsay Bolton', 'Daenerys Targaryen']
+            },
+            professions: {
+                name: '💼 Professions & Careers',
+                words: ['Doctor', 'Nurse', 'Surgeon', 'Dentist', 'Psychiatrist', 'Psychologist', 'Therapist', 'Pharmacist', 'Veterinarian', 'Lawyer', 'Judge', 'Police Officer', 'Detective', 'FBI Agent', 'Secret Agent', 'Firefighter', 'Paramedic', 'EMT', 'Soldier', 'General', 'Pilot', 'Captain', 'Flight Attendant', 'Engineer', 'Architect', 'Construction Worker', 'Electrician', 'Plumber', 'Mechanic', 'Chef', 'Cook', 'Baker', 'Bartender', 'Waiter', 'Server', 'Cashier', 'Retail Worker', 'Manager', 'CEO', 'Business Owner', 'Entrepreneur', 'Accountant', 'Financial Advisor', 'Banker', 'Stockbroker', 'Teacher', 'Professor', 'Principal', 'Librarian', 'Journalist', 'Reporter', 'Photographer', 'Cameraman', 'Director', 'Producer', 'Actor', 'Actress', 'Musician', 'Singer', 'Dancer', 'Choreographer', 'Animator', 'Graphic Designer', 'Web Designer', 'Software Developer', 'Programmer', 'Hacker', 'IT Specialist', 'Scientist', 'Biologist', 'Chemist', 'Physicist', 'Mathematician', 'Geologist', 'Astronomer', 'Archaeologist', 'Anthropologist', 'Sociologist', 'Economist', 'Historian', 'Philosopher', 'Counselor', 'Social Worker', 'Volunteer', 'Charity Worker', 'Environmental Scientist', 'Zoologist', 'Botanist', 'Meteorologist', 'Pilot', 'Flight Attendant', 'Astronaut', 'Trainer', 'Athlete', 'Coach']
+            },
+            weather: {
+                name: '☀️ Weather & Natural Phenomena',
+                words: ['Sunny', 'Cloudy', 'Rainy', 'Snowy', 'Stormy', 'Windy', 'Foggy', 'Hazy', 'Drizzle', 'Downpour', 'Thunderstorm', 'Lightning', 'Thunder', 'Hail', 'Sleet', 'Freezing Rain', 'Blizzard', 'Tornado', 'Hurricane', 'Typhoon', 'Cyclone', 'Monsoon', 'Drought', 'Flood', 'Tsunami', 'Earthquake', 'Volcano', 'Avalanche', 'Landslide', 'Wildfires', 'Aurora Borealis', 'Northern Lights', 'Southern Lights', 'Rainbow', 'Double Rainbow', 'Mirage', 'Dust Storm', 'Sandstorm', 'Whirlwind', 'Waterspout', 'Haboob', 'Derecho', 'Microburst', 'Downburst', 'Supercell', 'Wall Cloud', 'Funnel Cloud', 'Virga', 'Fallstreaks', 'Mammatus Clouds', 'Lenticular Clouds', 'Noctilucent Clouds', 'Crepuscular Rays', 'Sun Dogs', 'Moon Dogs', 'Corona', 'Halo', 'Glory', 'Blue Moon', 'Blood Moon', 'Super Moon', 'Harvest Moon', 'Wolf Moon', 'Meteor Shower', 'Solar Eclipse', 'Lunar Eclipse', 'Comet', 'Asteroid', 'Northern Passage', 'Equinox', 'Solstice', 'Seasons', 'Humidity', 'Dew Point', 'Barometric Pressure', 'Wind Chill', 'Heat Index', 'Visibility', 'Rime', 'Frost', 'Dew', 'Permafrost', 'Glaciers']
+            },
+            landmarks: {
+                name: '🏛️ Famous Landmarks & Places',
+                words: ['Eiffel Tower', 'Big Ben', 'Statue of Liberty', 'Christ the Redeemer', 'Colosseum', 'Great Wall of China', 'Taj Mahal', 'Machu Picchu', 'Angkor Wat', 'Pyramid of Giza', 'Stonehenge', 'Leaning Tower of Pisa', 'Westminster Abbey', 'Notre Dame', 'Sagrada Familia', 'Brandenburg Gate', 'Arc de Triomphe', 'Empire State Building', 'Burj Khalifa', 'CN Tower', 'Sydney Opera House', 'Statue of Liberty', 'Mount Rushmore', 'Golden Gate Bridge', 'Tower Bridge', 'London Bridge', 'Brooklyn Bridge', 'Millennium Bridge', 'Rialto Bridge', 'Venice', 'Amsterdam', 'Prague', 'Rome', 'Paris', 'London', 'Berlin', 'Madrid', 'Barcelona', 'Lisbon', 'Athens', 'Istanbul', 'Tokyo', 'Beijing', 'Shanghai', 'Dubai', 'New York', 'Los Angeles', 'San Francisco', 'Las Vegas', 'Miami', 'New Orleans', 'Chicago', 'Boston', 'Washington DC', 'Disney World', 'Universal Studios', 'Disneyland', 'Las Vegas Strip', 'Hollywood', 'Niagara Falls', 'Grand Canyon', 'Yellowstone', 'Yosemite', 'Great Barrier Reef', 'Victoria Falls', 'Iguazu Falls', 'Dead Sea', 'Sahara Desert', 'Amazon Rainforest', 'Norwegian Fjords', 'Swiss Alps', 'Rocky Mountains', 'Himalayas', 'Aurora Borealis', 'Galápagos Islands']
+            },
+            inventions: {
+                name: '💡 Inventions & Technology',
+                words: ['Telephone', 'Television', 'Radio', 'Computer', 'Internet', 'Smartphone', 'Laptop', 'Tablet', 'Smart Watch', 'Drone', 'Robot', 'Artificial Intelligence', 'Electricity', 'Light Bulb', 'Microwave', 'Refrigerator', 'Oven', 'Dishwasher', 'Washing Machine', 'Dryer', 'Vacuum Cleaner', 'Air Conditioner', 'Heater', 'Thermostat', 'Doorbell', 'Lock', 'Key', 'Elevator', 'Escalator', 'Wheelchair', 'Prosthetic', 'Pacemaker', 'Insulin Pump', 'Hearing Aid', 'Glasses', 'Contact Lenses', 'Telescope', 'Microscope', 'X Ray Machine', 'Ultrasound Machine', 'MRI Scanner', 'CT Scanner', 'Stethoscope', 'Thermometer', 'Syringe', 'Microscope', 'Telescope', 'Camera', 'Video Camera', 'Projector', 'Scanner', 'Printer', 'Photocopier', 'Fax Machine', 'Typewriter', 'Calculator', 'Clock', 'Watch', 'Compass', 'Barometer', 'Thermometer', 'Microscope', 'Telescope', 'Binoculars', 'Magnifying Glass', 'Microscope Slide', 'Petri Dish', 'Test Tube', 'Beaker', 'Bunsen Burner', 'Centrifuge', 'Microscope', 'Thermometer', 'Stopwatch', 'Timer', 'Metronome', 'Tuning Fork', 'Stethoscope', 'Blood Pressure Cuff', 'Pulse Oximeter', 'Glucose Meter', 'Thermometer', 'Barometer', 'Anemometer', 'Rain Gauge', 'Weather Vane']
+            },
+            plants: {
+                name: '🌿 Plants & Flowers',
+                words: ['Rose', 'Tulip', 'Sunflower', 'Daisy', 'Lily', 'Orchid', 'Magnolia', 'Peony', 'Iris', 'Lavender', 'Hibiscus', 'Carnation', 'Chrysanthemum', 'Jasmine', 'Honeysuckle', 'Daffodil', 'Hyacinth', 'Crocus', 'Snowdrop', 'Primrose', 'Violet', 'Pansy', 'Geranium', 'Zinnia', 'Marigold', 'Poppy', 'Anemone', 'Buttercup', 'Bluebell', 'Forget Me Not', 'Calla Lily', 'Freesia', 'Gladiolus', 'Gerbera', 'Poinsettia', 'Holly', 'Mistletoe', 'Ivy', 'Fern', 'Moss', 'Lichen', 'Cactus', 'Succulent', 'Aloe Vera', 'Prickly Pear', 'Agave', 'Venus Fly Trap', 'Pitcher Plant', 'Sundew', 'Banana Plant', 'Palm Tree', 'Oak Tree', 'Maple Tree', 'Pine Tree', 'Spruce Tree', 'Elm Tree', 'Birch Tree', 'Willow Tree', 'Ash Tree', 'Beech Tree', 'Cedar Tree', 'Cypress Tree', 'Juniper Tree', 'Yew Tree', 'Holly Bush', 'Rhododendron', 'Azalea', 'Boxwood', 'Privet', 'Hedges', 'Bamboo', 'Grass', 'Wheat', 'Corn', 'Rice', 'Oats', 'Barley', 'Rye', 'Millet', 'Clover', 'Alfalfa', 'Daisies', 'Dandelions', 'Plantain', 'Chickweed', 'Nettle', 'Thistle', 'Thistle']
+            },
+            abstract: {
+                name: '🎨 Abstract Concepts (Hard)',
+                words: ['Time', 'Space', 'Gravity', 'Infinity', 'Nothing', 'Everything', 'Universe', 'Chaos', 'Order', 'Entropy', 'Parallel Universe', 'Multiverse', 'Singularity', 'Black Hole', 'Wormhole', 'String Theory', 'Quantum Mechanics', 'Relativity', 'Dimensions', 'Frequency', 'Wavelength', 'Vibration', 'Energy', 'Matter', 'Anti Matter', 'Dark Matter', 'Dark Energy', 'Light Speed', 'Sound Barrier', 'Inertia', 'Momentum', 'Acceleration', 'Velocity', 'Friction', 'Resistance', 'Tension', 'Pressure', 'Density', 'Mass', 'Weight', 'Volume', 'Temperature', 'Heat', 'Cold', 'Pressure', 'Vacuum', 'Void', 'Silence', 'Echo', 'Resonance', 'Harmony', 'Rhythm', 'Pattern', 'Cycle', 'Wave', 'Particle', 'Duality', 'Paradox', 'Paradox', 'Contradiction', 'Symmetry', 'Asymmetry', 'Balance', 'Imbalance', 'Equilibrium', 'Disequilibrium', 'Friction', 'Turbulence', 'Laminar Flow', 'Plasma', 'Bose Einstein Condensate', 'Fermi Liquid', 'Superconductor', 'Superfluid', 'Quantum Entanglement', 'Uncertainty Principle', 'Wave Particle Duality', 'Quantum Tunneling', 'Zero Point Energy', 'Hawking Radiation', 'Event Horizon', 'Spacetime']
             }
         };
 
