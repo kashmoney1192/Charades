@@ -124,6 +124,13 @@
             color: #888;
         }
 
+        .timestamp {
+            font-size: 11px;
+            color: #bbb;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
         .fullscreen-btn {
             position: absolute;
             top: 0;
@@ -677,6 +684,51 @@
                 }
             }
 
+            // Handle tilt detection
+            const handleTilt = React.useCallback((event) => {
+                const now = Date.now();
+                if (now - tiltCooldownRef.current < 1000) return; // 1 second cooldown
+
+                const beta = event.beta; // x rotation: -180 to 180
+                console.log('Beta angle:', beta); // Debug log
+                lastBetaRef.current = beta;
+
+                // Tilt down (phone toward forehead goes down) = correct
+                // beta < -40 means tilted down significantly
+                if (beta < -40) {
+                    console.log('CORRECT detected');
+                    tiltCooldownRef.current = now;
+                    setTiltFeedback('correct');
+                    playSound(1200, 0.15); // Higher pitch for correct
+
+                    setScore(prev => prev + 1);
+                    const newUsed = new Set(usedWords);
+                    newUsed.add(currentWord);
+                    setUsedWords(newUsed);
+                    const nextWord = getRandomWord(selectedCategory);
+                    setCurrentWord(nextWord);
+
+                    setTimeout(() => setTiltFeedback(null), 500);
+                }
+                // Tilt up (phone toward forehead goes up) = skip
+                // beta > 40 means tilted up significantly
+                else if (beta > 40) {
+                    console.log('SKIP detected');
+                    tiltCooldownRef.current = now;
+                    setTiltFeedback('skip');
+                    playSound(600, 0.15); // Lower pitch for skip
+
+                    setSkipped(prev => prev + 1);
+                    const newUsed = new Set(usedWords);
+                    newUsed.add(currentWord);
+                    setUsedWords(newUsed);
+                    const nextWord = getRandomWord(selectedCategory);
+                    setCurrentWord(nextWord);
+
+                    setTimeout(() => setTiltFeedback(null), 500);
+                }
+            }, [usedWords, currentWord, selectedCategory]);
+
             // Toggle tilt controls
             const toggleTiltControl = () => {
                 if (!deviceSupportsOrientation) return;
@@ -690,62 +742,19 @@
                             .then(permissionState => {
                                 if (permissionState === 'granted') {
                                     window.addEventListener('deviceorientation', handleTilt);
+                                    console.log('Tilt controls enabled (iOS)');
                                 }
                             })
                             .catch(console.error);
                     } else {
                         // Non-iOS 13+ devices
                         window.addEventListener('deviceorientation', handleTilt);
+                        console.log('Tilt controls enabled (Android)');
                     }
                 } else {
                     window.removeEventListener('deviceorientation', handleTilt);
+                    console.log('Tilt controls disabled');
                 }
-            };
-
-            // Handle tilt detection
-            const handleTilt = (event) => {
-                if (!tiltEnabled || gameState !== 'playing') return;
-
-                const now = Date.now();
-                if (now - tiltCooldownRef.current < 1000) return; // 1 second cooldown
-
-                const beta = event.beta; // x rotation: -180 to 180
-                lastBetaRef.current = beta;
-
-                // Tilt down (phone toward forehead goes down) = correct
-                // beta < -30 means tilted down significantly
-                if (beta < -40) {
-                    tiltCooldownRef.current = now;
-                    showTiltFeedback('correct');
-                    playSound(1200, 0.15); // Higher pitch for correct
-
-                    const newUsed = new Set(usedWords);
-                    newUsed.add(currentWord);
-                    setUsedWords(newUsed);
-                    setScore(score + 1);
-                    const nextWord = getRandomWord(selectedCategory);
-                    setCurrentWord(nextWord);
-                }
-                // Tilt up (phone toward forehead goes up) = skip
-                // beta > 30 means tilted up significantly
-                else if (beta > 40) {
-                    tiltCooldownRef.current = now;
-                    showTiltFeedback('skip');
-                    playSound(600, 0.15); // Lower pitch for skip
-
-                    const newUsed = new Set(usedWords);
-                    newUsed.add(currentWord);
-                    setUsedWords(newUsed);
-                    setSkipped(skipped + 1);
-                    const nextWord = getRandomWord(selectedCategory);
-                    setCurrentWord(nextWord);
-                }
-            };
-
-            // Show tilt feedback animation
-            const showTiltFeedback = (type) => {
-                setTiltFeedback(type);
-                setTimeout(() => setTiltFeedback(null), 500);
             };
 
             // Check for device orientation support
@@ -845,6 +854,7 @@
                             </button>
                             <div className="title">🎭 Charades</div>
                             <div className="subtitle">Pick a category and start guessing!</div>
+                            <div className="timestamp">Last updated: {new Date().toLocaleString()}</div>
                         </div>
 
                         <div className="category-selector">
@@ -974,6 +984,7 @@
                             <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
                                 {isFullscreen ? '⛶' : '⛶'}
                             </button>
+                            <div className="timestamp">Last updated: {new Date().toLocaleString()}</div>
                         </div>
                         <div className="game-over-screen">
                             <div className="game-over-title">⏱️ Time's Up!</div>
