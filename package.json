@@ -1,0 +1,23 @@
+{
+  "name": "charades-game",
+  "version": "1.0.0",
+  "description": "Mobile-friendly Charades game with tilt controls",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 3000"
+  },
+  "keywords": [
+    "charades",
+    "game",
+    "mobile",
+    "tilt",
+    "react"
+  ],
+  "author": "AiGames",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kashmoney1192/Charades.git"
+  }
+}
