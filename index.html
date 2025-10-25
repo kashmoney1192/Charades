@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charades Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        #root {
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+        }
+
+        /* Container */
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Landscape mode adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            #root {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .container {
+                min-height: auto;
+                padding: 15px 20px;
+                border-radius: 0;
+            }
+
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .title {
+                font-size: 24px;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                font-size: 12px;
+            }
+
+            .game-screen {
+                gap: 12px;
+            }
+
+            .word-container {
+                padding: 20px 15px;
+                min-height: 120px;
+            }
+
+            .word-display {
+                font-size: 28px;
+            }
+
+            .word-label {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+
+            .timer {
+                font-size: 36px;
+            }
+
+            .stat-box {
+                padding: 10px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+
+            .btn {
+                padding: 12px;
+                font-size: 13px;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            transform: scale(1.15);
+        }
+
+        body.fullscreen-mode {
+            padding: 0;
+        }
+
+        body.fullscreen-mode #root {
+            max-width: 100%;
+            height: 100vh;
+        }
+
+        body.fullscreen-mode .container {
+            border-radius: 0;
+            padding: 20px 15px;
+            min-height: 100vh;
+            max-width: 100%;
+        }
+
+        body.fullscreen-mode .header {
+            margin-bottom: 20px;
+        }
+
+        body.fullscreen-mode .title {
+            font-size: 28px;
+        }
+
+        /* Category Selection */
+        .category-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .category-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 500px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .category-btn {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: #f5f5f5;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .start-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Game Screen */
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .timer {
+            font-size: 48px;
+            font-weight: bold;
+            text-align: center;
+            color: #f5576c;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer.warning {
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Word Display */
+        .word-container {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 16px;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .word-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .word-display {
+            font-size: 40px;
+            font-weight: bold;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 480px) {
+            .word-display {
+                font-size: 32px;
+            }
+        }
+
+        /* Controls */
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Game Over Screen */
+        .game-over-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .game-over-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .final-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #f5576c;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .reset-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Tilt Controls */
+        .tilt-toggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            transition: transform 0.3s ease;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .tilt-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .tilt-toggle.active {
+            color: #10b981;
+        }
+
+        .tilt-feedback {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fadeOut 0.5s ease;
+        }
+
+        .tilt-feedback.correct {
+            background: rgba(16, 185, 129, 0.3);
+        }
+
+        .tilt-feedback.skip {
+            background: rgba(245, 87, 108, 0.3);
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .tilt-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            animation: fadeOut 0.5s ease;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .tilt-indicator.correct {
+            color: #10b981;
+        }
+
+        .tilt-indicator.skip {
+            color: #f5576c;
+        }
+
+        .tilt-info {
+            background: #f0f0f0;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .tilt-info.active {
+            background: #d1fae5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .tilt-status {
+            display: inline-block;
+            margin-left: 8px;
+            font-weight: 600;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Game data
+        const CATEGORIES = {
+            movies: {
+                name: '🎬 Movies',
+                words: [
+                    'The Shawshank Redemption', 'Inception', 'The Dark Knight', 'Forrest Gump',
+                    'Pulp Fiction', 'The Matrix', 'Titanic', 'Avatar', 'Interstellar', 'Parasite',
+                    'Avengers Endgame', 'Joker', 'The Quiet Place', 'Knives Out', 'Dune',
+                    'Top Gun', 'Back to the Future', 'Jurassic Park', 'E.T.', 'Home Alone'
+                ]
+            },
+            animals: {
+                name: '🦁 Animals',
+                words: [
+                    'Lion', 'Tiger', 'Elephant', 'Giraffe', 'Penguin', 'Eagle', 'Dolphin',
+                    'Octopus', 'Kangaroo', 'Sloth', 'Flamingo', 'Chameleon', 'Porcupine',
+                    'Hedgehog', 'Koala', 'Panda', 'Cheetah', 'Rhinoceros', 'Zebra', 'Peacock'
+                ]
+            },
+            celebrities: {
+                name: '⭐ Celebrities',
+                words: [
+                    'Taylor Swift', 'Elon Musk', 'Dwayne Johnson', 'Oprah Winfrey', 'Beyoncé',
+                    'Leonardo DiCaprio', 'Scarlett Johansson', 'Tom Cruise', 'Cristiano Ronaldo',
+                    'Lionel Messi', 'Billie Eilish', 'The Rock', 'Kim Kardashian', 'Kanye West'
+                ]
+            },
+            sports: {
+                name: '⚽ Sports',
+                words: [
+                    'Basketball', 'Football', 'Soccer', 'Tennis', 'Boxing', 'Swimming',
+                    'Golf', 'Skateboarding', 'Surfing', 'Skiing', 'Volleyball', 'Hockey',
+                    'Baseball', 'Cricket', 'Rugby', 'Gymnastics', 'Yoga', 'Weightlifting'
+                ]
+            },
+            jobs: {
+                name: '💼 Jobs',
+                words: [
+                    'Doctor', 'Teacher', 'Chef', 'Pilot', 'Astronaut', 'Superhero',
+                    'Mechanic', 'Dentist', 'Magician', 'Ninja', 'Pirate', 'Firefighter',
+                    'Police Officer', 'Scientist', 'Artist', 'Musician', 'Dancer', 'Athlete'
+                ]
+            },
+            actions: {
+                name: '🎭 Actions',
+                words: [
+                    'Dancing', 'Swimming', 'Sleeping', 'Running', 'Cooking', 'Fishing',
+                    'Painting', 'Singing', 'Jumping', 'Stretching', 'Lifting', 'Falling',
+                    'Driving', 'Typing', 'Reading', 'Writing', 'Thinking', 'Snoring'
+                ]
+            }
+        };
+
+        const GAME_DURATION = 60; // seconds
+        const INITIAL_TIME = 60;
+
+        // Audio context for sound effect
+        function playTimeUpSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+
+        function GameApp() {
+            const [gameState, setGameState] = useState('category-select'); // category-select, playing, game-over
+            const [selectedCategory, setSelectedCategory] = useState(null);
+            const [score, setScore] = useState(0);
+            const [skipped, setSkipped] = useState(0);
+            const [currentWord, setCurrentWord] = useState(null);
+            const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
+            const [usedWords, setUsedWords] = useState(new Set());
+            const [isFullscreen, setIsFullscreen] = useState(false);
+            const [tiltEnabled, setTiltEnabled] = useState(false);
+            const [tiltFeedback, setTiltFeedback] = useState(null);
+            const [deviceSupportsOrientation, setDeviceSupportsOrientation] = useState(false);
+            const timerRef = useRef(null);
+            const gameStartTimeRef = useRef(null);
+            const tiltCooldownRef = useRef(0);
+            const lastBetaRef = useRef(0);
+
+            // Toggle fullscreen mode
+            const toggleFullscreen = () => {
+                setIsFullscreen(!isFullscreen);
+                if (!isFullscreen) {
+                    document.body.classList.add('fullscreen-mode');
+                } else {
+                    document.body.classList.remove('fullscreen-mode');
+                }
+            };
+
+            // Play sound effect
+            function playSound(frequency = 800, duration = 0.2) {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = 'sine';
+
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + duration);
+                } catch (e) {
+                    console.log('Audio not supported');
+                }
+            }
+
+            // Toggle tilt controls
+            const toggleTiltControl = () => {
+                if (!deviceSupportsOrientation) return;
+                const newState = !tiltEnabled;
+                setTiltEnabled(newState);
+
+                if (newState && gameState === 'playing') {
+                    // Request permission for iOS 13+
+                    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                        DeviceOrientationEvent.requestPermission()
+                            .then(permissionState => {
+                                if (permissionState === 'granted') {
+                                    window.addEventListener('deviceorientation', handleTilt);
+                                }
+                            })
+                            .catch(console.error);
+                    } else {
+                        // Non-iOS 13+ devices
+                        window.addEventListener('deviceorientation', handleTilt);
+                    }
+                } else {
+                    window.removeEventListener('deviceorientation', handleTilt);
+                }
+            };
+
+            // Handle tilt detection
+            const handleTilt = (event) => {
+                if (!tiltEnabled || gameState !== 'playing') return;
+
+                const now = Date.now();
+                if (now - tiltCooldownRef.current < 1000) return; // 1 second cooldown
+
+                const beta = event.beta; // x rotation: -180 to 180
+                lastBetaRef.current = beta;
+
+                // Tilt down (phone toward forehead goes down) = correct
+                // beta < -30 means tilted down significantly
+                if (beta < -40) {
+                    tiltCooldownRef.current = now;
+                    showTiltFeedback('correct');
+                    playSound(1200, 0.15); // Higher pitch for correct
+
+                    const newUsed = new Set(usedWords);
+                    newUsed.add(currentWord);
+                    setUsedWords(newUsed);
+                    setScore(score + 1);
+                    const nextWord = getRandomWord(selectedCategory);
+                    setCurrentWord(nextWord);
+                }
+                // Tilt up (phone toward forehead goes up) = skip
+                // beta > 30 means tilted up significantly
+                else if (beta > 40) {
+                    tiltCooldownRef.current = now;
+                    showTiltFeedback('skip');
+                    playSound(600, 0.15); // Lower pitch for skip
+
+                    const newUsed = new Set(usedWords);
+                    newUsed.add(currentWord);
+                    setUsedWords(newUsed);
+                    setSkipped(skipped + 1);
+                    const nextWord = getRandomWord(selectedCategory);
+                    setCurrentWord(nextWord);
+                }
+            };
+
+            // Show tilt feedback animation
+            const showTiltFeedback = (type) => {
+                setTiltFeedback(type);
+                setTimeout(() => setTiltFeedback(null), 500);
+            };
+
+            // Check for device orientation support
+            useEffect(() => {
+                const hasOrientation =
+                    typeof window !== 'undefined' &&
+                    (typeof DeviceOrientationEvent !== 'undefined' || 'ontouchstart' in window);
+                setDeviceSupportsOrientation(hasOrientation);
+            }, []);
+
+            // Cleanup tilt event listener
+            useEffect(() => {
+                return () => {
+                    window.removeEventListener('deviceorientation', handleTilt);
+                };
+            }, [tiltEnabled, gameState]);
+
+            // Get random word from category
+            const getRandomWord = (category) => {
+                const words = CATEGORIES[category].words;
+                let word;
+                let attempts = 0;
+                do {
+                    word = words[Math.floor(Math.random() * words.length)];
+                    attempts++;
+                } while (usedWords.has(word) && attempts < 20);
+                return word;
+            };
+
+            // Start game
+            const startGame = () => {
+                if (!selectedCategory) return;
+                setGameState('playing');
+                setScore(0);
+                setSkipped(0);
+                setUsedWords(new Set());
+                setTimeLeft(INITIAL_TIME);
+                setCurrentWord(getRandomWord(selectedCategory));
+                gameStartTimeRef.current = Date.now();
+            };
+
+            // Timer effect
+            useEffect(() => {
+                if (gameState !== 'playing') return;
+
+                timerRef.current = setInterval(() => {
+                    setTimeLeft((prev) => {
+                        if (prev <= 1) {
+                            playTimeUpSound();
+                            setGameState('game-over');
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+
+                return () => clearInterval(timerRef.current);
+            }, [gameState]);
+
+            // Correct answer
+            const handleCorrect = () => {
+                const newUsed = new Set(usedWords);
+                newUsed.add(currentWord);
+                setUsedWords(newUsed);
+                setScore(score + 1);
+                const nextWord = getRandomWord(selectedCategory);
+                setCurrentWord(nextWord);
+            };
+
+            // Skip word
+            const handleSkip = () => {
+                const newUsed = new Set(usedWords);
+                newUsed.add(currentWord);
+                setUsedWords(newUsed);
+                setSkipped(skipped + 1);
+                const nextWord = getRandomWord(selectedCategory);
+                setCurrentWord(nextWord);
+            };
+
+            // Reset game
+            const resetGame = () => {
+                setGameState('category-select');
+                setSelectedCategory(null);
+                setScore(0);
+                setSkipped(0);
+                setTimeLeft(INITIAL_TIME);
+                setUsedWords(new Set());
+                setCurrentWord(null);
+            };
+
+            if (gameState === 'category-select') {
+                return (
+                    <div className="container">
+                        <div className="header">
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                                {isFullscreen ? '⛶' : '⛶'}
+                            </button>
+                            <div className="title">🎭 Charades</div>
+                            <div className="subtitle">Pick a category and start guessing!</div>
+                        </div>
+
+                        <div className="category-selector">
+                            <div className="category-label">Choose a Category:</div>
+                            <div className="category-grid">
+                                {Object.entries(CATEGORIES).map(([key, cat]) => (
+                                    <button
+                                        key={key}
+                                        className={`category-btn ${
+                                            selectedCategory === key ? 'active' : ''
+                                        }`}
+                                        onClick={() => setSelectedCategory(key)}
+                                    >
+                                        {cat.name}
+                                    </button>
+                                ))}
+                            </div>
+                            <button
+                                className="start-btn"
+                                onClick={startGame}
+                                disabled={!selectedCategory}
+                            >
+                                Start Game
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (gameState === 'playing' && currentWord) {
+                return (
+                    <div className="container">
+                        {tiltFeedback && (
+                            <>
+                                <div className={`tilt-feedback ${tiltFeedback}`}></div>
+                                <div className={`tilt-indicator ${tiltFeedback}`}>
+                                    {tiltFeedback === 'correct' ? '✓' : '⏭️'}
+                                </div>
+                            </>
+                        )}
+                        <div className="header">
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                                {isFullscreen ? '⛶' : '⛶'}
+                            </button>
+                            {deviceSupportsOrientation && (
+                                <button
+                                    className={`tilt-toggle ${tiltEnabled ? 'active' : ''}`}
+                                    onClick={toggleTiltControl}
+                                    title={tiltEnabled ? 'Disable tilt controls' : 'Enable tilt controls'}
+                                >
+                                    📱
+                                </button>
+                            )}
+                            <div className="title">🎭 Charades</div>
+                        </div>
+
+                        <div className="game-screen">
+                            {deviceSupportsOrientation && (
+                                <div className={`tilt-info ${tiltEnabled ? 'active' : ''}`}>
+                                    {tiltEnabled ? (
+                                        <>
+                                            🎮 Tilt controls <span className="tilt-status">ACTIVE</span>
+                                            <br />
+                                            <small>Hold phone to forehead • Tilt down ↓ for correct • Tilt up ↑ to skip</small>
+                                        </>
+                                    ) : (
+                                        <>
+                                            Enable tilt controls to play like real Charades
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                            <div className="stats">
+                                <div className="stat-box">
+                                    <div className="stat-label">Correct</div>
+                                    <div className="stat-value">{score}</div>
+                                </div>
+                                <div className="stat-box">
+                                    <div className="stat-label">Skipped</div>
+                                    <div className="stat-value">{skipped}</div>
+                                </div>
+                                <div className="stat-box">
+                                    <div className="stat-label">Total</div>
+                                    <div className="stat-value">{score + skipped}</div>
+                                </div>
+                            </div>
+
+                            <div className={`timer ${timeLeft <= 10 ? 'warning' : ''}`}>
+                                {timeLeft}s
+                            </div>
+
+                            <div className="word-container">
+                                <div className="word-label">Guess the word:</div>
+                                <div className="word-display">{currentWord}</div>
+                            </div>
+
+                            <div className="controls">
+                                <button
+                                    className="btn btn-secondary"
+                                    onClick={handleSkip}
+                                >
+                                    ⏭️ Skip
+                                </button>
+                                <button
+                                    className="btn btn-success"
+                                    onClick={handleCorrect}
+                                >
+                                    ✓ Got It!
+                                </button>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => setGameState('game-over')}
+                                >
+                                    End Game
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (gameState === 'game-over') {
+                const total = score + skipped;
+                return (
+                    <div className="container">
+                        <div className="header">
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                                {isFullscreen ? '⛶' : '⛶'}
+                            </button>
+                        </div>
+                        <div className="game-over-screen">
+                            <div className="game-over-title">⏱️ Time's Up!</div>
+                            <div className="final-score">{score}</div>
+                            <div className="message">
+                                {total === 0
+                                    ? 'No words guessed. Try again!'
+                                    : `${score} correct out of ${total} total!`}
+                            </div>
+                            <button className="reset-btn" onClick={resetGame}>
+                                Play Again
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return null;
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<GameApp />);
+    </script>
+</body>
+</html>
