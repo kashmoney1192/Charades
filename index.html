@@ -189,11 +189,20 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
         @media (min-width: 500px) {
             .category-grid {
                 grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .category-grid {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
             }
         }
 
@@ -563,7 +572,13 @@
                     'The Shawshank Redemption', 'Inception', 'The Dark Knight', 'Forrest Gump',
                     'Pulp Fiction', 'The Matrix', 'Titanic', 'Avatar', 'Interstellar', 'Parasite',
                     'Avengers Endgame', 'Joker', 'The Quiet Place', 'Knives Out', 'Dune',
-                    'Top Gun', 'Back to the Future', 'Jurassic Park', 'E.T.', 'Home Alone'
+                    'Top Gun', 'Back to the Future', 'Jurassic Park', 'E.T.', 'Home Alone',
+                    'The Godfather', 'Gladiator', 'The Lion King', 'Frozen', 'Toy Story',
+                    'Spider-Man', 'Batman Begins', 'The Avengers', 'Iron Man', 'Captain America',
+                    'Thor', 'Black Panther', 'Wonder Woman', 'Aquaman', 'The Flash',
+                    'Godzilla', 'King Kong', 'Jaws', 'The Ring', 'The Sixth Sense',
+                    'Shrek', 'Finding Nemo', 'Inside Out', 'Coco', 'Encanto',
+                    'Barbie', 'Oppenheimer', 'Barbie and Ken', 'Mission Impossible', 'Fast and Furious'
                 ]
             },
             animals: {
@@ -571,7 +586,12 @@
                 words: [
                     'Lion', 'Tiger', 'Elephant', 'Giraffe', 'Penguin', 'Eagle', 'Dolphin',
                     'Octopus', 'Kangaroo', 'Sloth', 'Flamingo', 'Chameleon', 'Porcupine',
-                    'Hedgehog', 'Koala', 'Panda', 'Cheetah', 'Rhinoceros', 'Zebra', 'Peacock'
+                    'Hedgehog', 'Koala', 'Panda', 'Cheetah', 'Rhinoceros', 'Zebra', 'Peacock',
+                    'Butterfly', 'Bee', 'Ant', 'Spider', 'Scorpion', 'Snake', 'Crocodile',
+                    'Alligator', 'Turtle', 'Shark', 'Whale', 'Seal', 'Otter', 'Beaver',
+                    'Squirrel', 'Rabbit', 'Deer', 'Moose', 'Bear', 'Wolf', 'Fox',
+                    'Monkey', 'Gorilla', 'Chimpanzee', 'Lemur', 'Parrot', 'Owl', 'Penguin',
+                    'Ostrich', 'Chicken', 'Duck', 'Swan', 'Peacock', 'Flamingo', 'Hummingbird'
                 ]
             },
             celebrities: {
@@ -579,7 +599,57 @@
                 words: [
                     'Taylor Swift', 'Elon Musk', 'Dwayne Johnson', 'Oprah Winfrey', 'Beyoncé',
                     'Leonardo DiCaprio', 'Scarlett Johansson', 'Tom Cruise', 'Cristiano Ronaldo',
-                    'Lionel Messi', 'Billie Eilish', 'The Rock', 'Kim Kardashian', 'Kanye West'
+                    'Lionel Messi', 'Billie Eilish', 'The Rock', 'Kim Kardashian', 'Kanye West',
+                    'Ariana Grande', 'Harry Styles', 'Zendaya', 'Timothée Chalamet', 'Margot Robbie',
+                    'Brad Pitt', 'Johnny Depp', 'Angelina Jolie', 'Meryl Streep', 'Tom Hanks',
+                    'Will Smith', 'Morgan Freeman', 'Samuel L Jackson', 'Denzel Washington', 'Idris Elba',
+                    'Drake', 'The Weeknd', 'Post Malone', 'Ed Sheeran', 'Coldplay',
+                    'Rihanna', 'Lady Gaga', 'Shakira', 'Britney Spears', 'Madonna'
+                ]
+            },
+            tvshows: {
+                name: '📺 TV Shows',
+                words: [
+                    'Breaking Bad', 'Game of Thrones', 'Stranger Things', 'The Office', 'Friends',
+                    'The Crown', 'The Mandalorian', 'House of Dragon', 'Wednesday', 'Squid Game',
+                    'Andor', 'Severance', 'The Last of Us', 'Succession', 'Succession',
+                    'Peaky Blinders', 'Sherlock', 'Doctor Who', 'Black Mirror', 'Westworld',
+                    'The Witcher', 'Vikings', 'Dexter', 'The Sopranos', 'The Wire',
+                    'Brooklyn Nine-Nine', 'The Good Place', 'Parks and Recreation', 'Community', 'It\'s Always Sunny',
+                    'South Park', 'Family Guy', 'Rick and Morty', 'The Simpsons', 'Futurama'
+                ]
+            },
+            food: {
+                name: '🍕 Food',
+                words: [
+                    'Pizza', 'Burger', 'Tacos', 'Sushi', 'Pasta', 'Ramen', 'Pho',
+                    'Curry', 'Kebab', 'Sandwich', 'Hotdog', 'Fried Chicken', 'Steak', 'Salmon',
+                    'Lobster', 'Crab', 'Shrimp', 'Fish and Chips', 'Nachos', 'Quesadilla',
+                    'Burrito', 'Enchilada', 'Pad Thai', 'Teriyaki', 'Dim Sum', 'Dumplings',
+                    'Meatballs', 'Risotto', 'Paella', 'Chowder', 'Soup', 'Salad', 'Sandwich',
+                    'Donut', 'Cake', 'Cookies', 'Ice Cream', 'Chocolate', 'Candy', 'Popcorn',
+                    'Pretzel', 'Chips', 'Fruit', 'Vegetables', 'Bread', 'Cheese', 'Yogurt'
+                ]
+            },
+            music: {
+                name: '🎵 Music',
+                words: [
+                    'Rock', 'Pop', 'Hip Hop', 'Jazz', 'Blues', 'Country', 'Classical',
+                    'Electronic', 'Reggae', 'Metal', 'Punk', 'Rap', 'R&B', 'Soul',
+                    'Gospel', 'K-pop', 'Disco', 'Techno', 'House Music', 'Indie',
+                    'Alternative', 'Grunge', 'Emo', 'Folk', 'Latin', 'Afrobeat', 'Trap',
+                    'Drill', 'Grime', 'Dubstep', 'Drum and Bass', 'Trance', 'Ambient', 'Noise'
+                ]
+            },
+            books: {
+                name: '📚 Books',
+                words: [
+                    'Harry Potter', 'The Lord of the Rings', 'Game of Thrones', 'The Hobbit',
+                    'Percy Jackson', 'Hunger Games', 'Divergent', 'The Maze Runner', 'To Kill a Mockingbird',
+                    '1984', 'Pride and Prejudice', 'Jane Eyre', 'Wuthering Heights', 'The Great Gatsby',
+                    'Moby Dick', 'The Catcher in the Rye', 'Brave New World', 'Dune', 'Ender\'s Game',
+                    'The Chronicles of Narnia', 'A Series of Unfortunate Events', 'Percy Jackson', 'The Inheritance Cycle',
+                    'Twilight', 'New Moon', 'Breaking Dawn', 'The Fault in Our Stars', 'Paper Towns'
                 ]
             },
             sports: {
@@ -587,7 +657,10 @@
                 words: [
                     'Basketball', 'Football', 'Soccer', 'Tennis', 'Boxing', 'Swimming',
                     'Golf', 'Skateboarding', 'Surfing', 'Skiing', 'Volleyball', 'Hockey',
-                    'Baseball', 'Cricket', 'Rugby', 'Gymnastics', 'Yoga', 'Weightlifting'
+                    'Baseball', 'Cricket', 'Rugby', 'Gymnastics', 'Yoga', 'Weightlifting',
+                    'Track and Field', 'Badminton', 'Ping Pong', 'Martial Arts', 'Karate',
+                    'Taekwondo', 'Judo', 'Wrestling', 'Bowling', 'Darts',
+                    'Archery', 'Climbing', 'Cycling', 'Rowing', 'Ice Skating'
                 ]
             },
             jobs: {
@@ -595,7 +668,10 @@
                 words: [
                     'Doctor', 'Teacher', 'Chef', 'Pilot', 'Astronaut', 'Superhero',
                     'Mechanic', 'Dentist', 'Magician', 'Ninja', 'Pirate', 'Firefighter',
-                    'Police Officer', 'Scientist', 'Artist', 'Musician', 'Dancer', 'Athlete'
+                    'Police Officer', 'Scientist', 'Artist', 'Musician', 'Dancer', 'Athlete',
+                    'Nurse', 'Surgeon', 'Lawyer', 'Judge', 'Engineer', 'Architect',
+                    'Plumber', 'Electrician', 'Carpenter', 'Baker', 'Farmer', 'Hunter',
+                    'Sailor', 'Astronomer', 'Archaeologist', 'Paleontologist', 'Zoologist', 'Biologist'
                 ]
             },
             actions: {
@@ -603,7 +679,34 @@
                 words: [
                     'Dancing', 'Swimming', 'Sleeping', 'Running', 'Cooking', 'Fishing',
                     'Painting', 'Singing', 'Jumping', 'Stretching', 'Lifting', 'Falling',
-                    'Driving', 'Typing', 'Reading', 'Writing', 'Thinking', 'Snoring'
+                    'Driving', 'Typing', 'Reading', 'Writing', 'Thinking', 'Snoring',
+                    'Laughing', 'Crying', 'Smiling', 'Frowning', 'Yawning', 'Sneezing',
+                    'Eating', 'Drinking', 'Walking', 'Running', 'Crawling', 'Climbing',
+                    'Falling', 'Flying', 'Swimming', 'Diving', 'Skateboarding', 'Surfing',
+                    'Skiing', 'Sledding', 'Ice Skating', 'Roller Skating', 'Biking', 'Kicking'
+                ]
+            },
+            countries: {
+                name: '🌍 Countries',
+                words: [
+                    'United States', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'Chile', 'Peru',
+                    'Colombia', 'Venezuela', 'Ecuador', 'Bolivia', 'Paraguay', 'Uruguay',
+                    'United Kingdom', 'France', 'Germany', 'Italy', 'Spain', 'Portugal', 'Greece',
+                    'Netherlands', 'Belgium', 'Switzerland', 'Austria', 'Sweden', 'Norway', 'Denmark',
+                    'Finland', 'Poland', 'Czech Republic', 'Hungary', 'Romania', 'Bulgaria',
+                    'Japan', 'China', 'India', 'South Korea', 'Thailand', 'Vietnam', 'Philippines',
+                    'Indonesia', 'Malaysia', 'Singapore', 'Australia', 'New Zealand', 'South Africa'
+                ]
+            },
+            games: {
+                name: '🎮 Games',
+                words: [
+                    'Minecraft', 'Fortnite', 'Call of Duty', 'Grand Theft Auto', 'Elden Ring',
+                    'Dark Souls', 'Skyrim', 'The Witcher 3', 'Final Fantasy', 'Zelda',
+                    'Mario', 'Donkey Kong', 'Pac Man', 'Space Invaders', 'Tetris',
+                    'Pokémon', 'Diablo', 'World of Warcraft', 'League of Legends', 'Valorant',
+                    'Counter Strike', 'Dota 2', 'Overwatch', 'Rust', 'Ark Survival',
+                    'Sims', 'Animal Crossing', 'Stardew Valley', 'Civilization', 'Age of Empires'
                 ]
             }
         };
