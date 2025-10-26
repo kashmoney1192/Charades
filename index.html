@@ -305,6 +305,84 @@
             gap: 15px;
         }
 
+        .timer-settings {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(236, 72, 153, 0.05));
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-settings-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+        }
+
+        .timer-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-input-group input {
+            width: 80px;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--primary);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            font-family: 'Space Mono', monospace;
+        }
+
+        .timer-input-group input:focus {
+            outline: none;
+            border-color: rgba(99, 102, 241, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .timer-preset-btns {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .timer-preset-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .timer-preset-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: scale(1.05);
+        }
+
+        .timer-preset-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+
         .category-label {
             font-size: 16px;
             font-weight: 600;
@@ -1211,6 +1289,8 @@
             const [tiltEnabled, setTiltEnabled] = useState(false);
             const [tiltFeedback, setTiltFeedback] = useState(null);
             const [deviceSupportsOrientation, setDeviceSupportsOrientation] = useState(false);
+            const [gameDuration, setGameDuration] = useState(INITIAL_TIME);
+            const [customTime, setCustomTime] = useState(INITIAL_TIME.toString());
             const timerRef = useRef(null);
             const gameStartTimeRef = useRef(null);
             const tiltCooldownRef = useRef(0);
@@ -1356,7 +1436,7 @@
                 setScore(0);
                 setSkipped(0);
                 setUsedWords(new Set());
-                setTimeLeft(INITIAL_TIME);
+                setTimeLeft(gameDuration);
                 setCurrentWord(getRandomWord(selectedCategory));
                 gameStartTimeRef.current = Date.now();
             };
@@ -1423,6 +1503,41 @@
                         </div>
 
                         <div className="category-selector">
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">⏱️ Game Duration (seconds)</div>
+                                <div className="timer-input-group">
+                                    <input
+                                        type="number"
+                                        min="10"
+                                        max="600"
+                                        value={customTime}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            setCustomTime(val);
+                                            const num = parseInt(val);
+                                            if (num >= 10 && num <= 600) {
+                                                setGameDuration(num);
+                                            }
+                                        }}
+                                    />
+                                    <span style={{ fontSize: '14px', color: '#666' }}>seconds</span>
+                                </div>
+                                <div className="timer-preset-btns">
+                                    {[30, 45, 60, 90, 120].map((time) => (
+                                        <button
+                                            key={time}
+                                            className={`timer-preset-btn ${gameDuration === time ? 'active' : ''}`}
+                                            onClick={() => {
+                                                setGameDuration(time);
+                                                setCustomTime(time.toString());
+                                            }}
+                                        >
+                                            {time}s
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
                             <div className="category-label">Choose a Category:</div>
                             <div className="category-grid">
                                 {Object.entries(CATEGORIES).map(([key, cat]) => (
@@ -1442,7 +1557,7 @@
                                 onClick={startGame}
                                 disabled={!selectedCategory}
                             >
-                                Start Game
+                                Start Game (⏱️ {gameDuration}s)
                             </button>
                         </div>
                     </div>
