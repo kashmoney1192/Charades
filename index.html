@@ -1338,6 +1338,8 @@
             const [deviceSupportsOrientation, setDeviceSupportsOrientation] = useState(false);
             const [gameDuration, setGameDuration] = useState(INITIAL_TIME);
             const [customTime, setCustomTime] = useState(INITIAL_TIME.toString());
+            const [deviceType, setDeviceType] = useState(null); // 'iphone', 'tablet', 'pc', or null
+            const [screenOrientation, setScreenOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
             const timerRef = useRef(null);
             const gameStartTimeRef = useRef(null);
             const tiltCooldownRef = useRef(0);
@@ -1351,6 +1353,29 @@
                 } else {
                     document.body.classList.remove('fullscreen-mode');
                 }
+            };
+
+            // Detect device type
+            const detectDevice = () => {
+                const ua = navigator.userAgent.toLowerCase();
+                const isIPhone = /iphone|ipod/.test(ua) && !window.MSStream;
+                const isIPad = /ipad/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                const isAndroidPhone = /android.*mobile/.test(ua);
+                const isAndroidTablet = /android/.test(ua) && !/mobile/.test(ua);
+
+                if (isIPhone || isAndroidPhone) {
+                    return 'iphone';
+                } else if (isIPad || isAndroidTablet) {
+                    return 'tablet';
+                } else {
+                    return 'pc';
+                }
+            };
+
+            // Handle orientation change
+            const handleOrientationChange = () => {
+                const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+                setScreenOrientation(newOrientation);
             };
 
             // Play sound effect
@@ -1449,6 +1474,21 @@
                 }
             };
 
+            // Detect device type and handle orientation
+            useEffect(() => {
+                const detected = detectDevice();
+                setDeviceType(detected);
+
+                // Add orientation change listener
+                window.addEventListener('orientationchange', handleOrientationChange);
+                window.addEventListener('resize', handleOrientationChange);
+
+                return () => {
+                    window.removeEventListener('orientationchange', handleOrientationChange);
+                    window.removeEventListener('resize', handleOrientationChange);
+                };
+            }, []);
+
             // Check for device orientation support
             useEffect(() => {
                 const hasOrientation =
@@ -1537,6 +1577,138 @@
                 setCurrentWord(null);
             };
 
+            // Device selection screen
+            if (deviceType === null) {
+                return (
+                    <div className="container device-selection-screen">
+                        <div className="header" style={{ marginBottom: '60px' }}>
+                            <div className="title">🎭 Charades</div>
+                            <div className="subtitle">Select Your Device Type</div>
+                        </div>
+
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '20px',
+                            alignItems: 'center',
+                            flex: 1
+                        }}>
+                            <button
+                                onClick={() => {
+                                    setDeviceType('iphone');
+                                    setGameState('category-select');
+                                }}
+                                style={{
+                                    width: '200px',
+                                    padding: '25px 20px',
+                                    fontSize: '18px',
+                                    fontWeight: '700',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '20px',
+                                    background: 'linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%)',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 30px rgba(38, 198, 218, 0.3)',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-5px)';
+                                    e.target.style.boxShadow = '0 20px 50px rgba(38, 198, 218, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 10px 30px rgba(38, 198, 218, 0.3)';
+                                }}
+                            >
+                                📱 iPhone
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    setDeviceType('tablet');
+                                    setGameState('category-select');
+                                }}
+                                style={{
+                                    width: '200px',
+                                    padding: '25px 20px',
+                                    fontSize: '18px',
+                                    fontWeight: '700',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '20px',
+                                    background: 'linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%)',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 30px rgba(38, 198, 218, 0.3)',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-5px)';
+                                    e.target.style.boxShadow = '0 20px 50px rgba(38, 198, 218, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 10px 30px rgba(38, 198, 218, 0.3)';
+                                }}
+                            >
+                                📱 Tablet
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    setDeviceType('pc');
+                                    setGameState('category-select');
+                                }}
+                                style={{
+                                    width: '200px',
+                                    padding: '25px 20px',
+                                    fontSize: '18px',
+                                    fontWeight: '700',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '20px',
+                                    background: 'linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%)',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 10px 30px rgba(38, 198, 218, 0.3)',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.transform = 'translateY(-5px)';
+                                    e.target.style.boxShadow = '0 20px 50px rgba(38, 198, 218, 0.5)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 10px 30px rgba(38, 198, 218, 0.3)';
+                                }}
+                            >
+                                💻 Laptop/PC
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // iPhone landscape-only game mode
+            if (deviceType === 'iphone' && screenOrientation === 'portrait') {
+                return (
+                    <div style={{
+                        width: '100%',
+                        height: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, #0D47A1 0%, #1E88E5 50%, #00BCD4 100%)',
+                        color: 'white',
+                        textAlign: 'center',
+                        padding: '20px'
+                    }}>
+                        <div style={{ fontSize: '64px', marginBottom: '20px' }}>📱</div>
+                        <div style={{ fontSize: '32px', fontWeight: '800', marginBottom: '10px' }}>Rotate Your Phone</div>
+                        <div style={{ fontSize: '18px', opacity: '0.9' }}>Please switch to landscape mode to play</div>
+                    </div>
+                );
+            }
+
             if (gameState === 'category-select') {
                 return (
                     <div className="container">
@@ -1606,6 +1778,107 @@
                             >
                                 Start Game (⏱️ {gameDuration}s)
                             </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            // iPhone simplified landscape game view
+            if (deviceType === 'iphone' && gameState === 'playing' && currentWord && screenOrientation === 'landscape') {
+                return (
+                    <div style={{
+                        width: '100vw',
+                        height: '100vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, #0D47A1 0%, #1E88E5 50%, #00BCD4 100%)',
+                        padding: '0',
+                        margin: '0',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        fontFamily: 'Inter, sans-serif'
+                    }}>
+                        {/* Timer in top-left */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '20px',
+                            left: '20px',
+                            fontSize: '32px',
+                            fontWeight: '800',
+                            color: 'white',
+                            textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                            zIndex: 10
+                        }}>
+                            ⏱️ {timeLeft}s
+                        </div>
+
+                        {/* Score in top-right */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '20px',
+                            right: '20px',
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            color: 'white',
+                            zIndex: 10
+                        }}>
+                            ✓ {score} | ⏭️ {skipped}
+                        </div>
+
+                        {/* Main word display - larger */}
+                        <div style={{
+                            fontSize: '120px',
+                            fontWeight: '900',
+                            color: 'white',
+                            textAlign: 'center',
+                            marginBottom: '60px',
+                            textShadow: '0 4px 20px rgba(0,0,0,0.3)',
+                            wordBreak: 'break-word',
+                            maxWidth: '90vw',
+                            lineHeight: '1.2'
+                        }}>
+                            {currentWord}
+                        </div>
+
+                        {/* Feedback overlay */}
+                        {tiltFeedback && (
+                            <div style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: tiltFeedback === 'correct' ? 'rgba(76, 175, 80, 0.9)' : 'rgba(244, 67, 54, 0.9)',
+                                animation: 'fadeOut 0.5s ease-out',
+                                zIndex: 100
+                            }}>
+                                <div style={{
+                                    fontSize: '180px',
+                                    fontWeight: '900',
+                                    color: 'white'
+                                }}>
+                                    {tiltFeedback === 'correct' ? '✓' : '✕'}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Instructions */}
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '20px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            fontSize: '14px',
+                            color: 'rgba(255,255,255,0.8)',
+                            textAlign: 'center',
+                            zIndex: 10
+                        }}>
+                            📱 Tilt down for correct • Tilt up to skip
                         </div>
                     </div>
                 );
