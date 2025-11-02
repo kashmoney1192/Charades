@@ -289,9 +289,8 @@
             animation: float 6s ease-in-out infinite;
         }
 
-        /* Horror Movies - Dark red with ominous feel */
-        .container.theme-horror,
-        .container.theme-horror-movies {
+        /* Horror - Dark ominous */
+        .container.theme-horror {
             background:
                 radial-gradient(circle at 30% 70%, rgba(139, 0, 0, 0.4) 0%, transparent 50%),
                 radial-gradient(circle at 70% 30%, rgba(51, 0, 0, 0.3) 0%, transparent 50%),
@@ -299,8 +298,7 @@
             position: relative;
         }
 
-        .container.theme-horror::before,
-        .container.theme-horror-movies::before {
+        .container.theme-horror::before {
             content: '';
             position: absolute;
             top: 0;
@@ -315,6 +313,26 @@
                 transparent 4px
             );
             pointer-events: none;
+        }
+
+        /* Horror Movies - Bright crimson red */
+        .container.theme-horrorMovies {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(220, 20, 60, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(178, 34, 52, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #440000 0%, #cc0000 50%, #440000 100%);
+            position: relative;
+        }
+
+        .container.theme-horrorMovies::before {
+            content: '🔴 🔴 🔴';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: 120px;
+            opacity: 0.06;
+            letter-spacing: 40px;
+            padding-top: 30%;
         }
 
         /* Marvel - Dark with red energy bursts */
@@ -590,6 +608,382 @@
             font-size: 70px;
             opacity: 0.07;
             letter-spacing: 18px;
+            padding-top: 25%;
+        }
+
+        /* Animals - Wild safari */
+        .container.theme-animals {
+            background:
+                radial-gradient(circle at 30% 70%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(184, 134, 11, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #3a2a1a 0%, #5a4a2a 50%, #4a3a1a 100%);
+            position: relative;
+        }
+
+        .container.theme-animals::before {
+            content: '🦁 🐘 🦒 🦓 🐆 🦁 🐘 🦒';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        /* Celebrities - Glitzy gold */
+        .container.theme-celebrities {
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #2a2a0a 0%, #4a4a1a 50%, #3a3a0a 100%);
+            position: relative;
+        }
+
+        .container.theme-celebrities::before {
+            content: '⭐ ✨ ⭐ ✨ ⭐';
+            position: absolute;
+            width: 100%;
+            font-size: 100px;
+            opacity: 0.08;
+            letter-spacing: 25px;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Actions - Dynamic energy */
+        .container.theme-actions {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.15) 0%, transparent 40%),
+                linear-gradient(135deg, #1a0f0a 0%, #4a3a1a 50%, #2a1a0a 100%);
+            position: relative;
+        }
+
+        .container.theme-actions::before {
+            content: '⚡ 🏃 💪 🤸 ⚡ 🏃 💪 🤸';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Countries - Global atlas */
+        .container.theme-countries {
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(65, 105, 225, 0.1) 0px,
+                    rgba(65, 105, 225, 0.1) 20px,
+                    transparent 20px,
+                    transparent 40px
+                ),
+                linear-gradient(135deg, #0a1a3a 0%, #1a3a5a 50%, #0a2a3a 100%);
+            position: relative;
+        }
+
+        .container.theme-countries::before {
+            content: '🌍 🗺️ 🧭 ✈️ 🌍 🗺️ 🧭 ✈️';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            padding-top: 25%;
+        }
+
+        /* Emotions - Colorful feelings */
+        .container.theme-emotions {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 107, 107, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(147, 112, 219, 0.25) 0%, transparent 40%),
+                linear-gradient(135deg, #1a0f2a 0%, #3a1a4a 50%, #2a0f1a 100%);
+            position: relative;
+        }
+
+        .container.theme-emotions::before {
+            content: '😊 😢 😡 😱 😊 😢 😡 😱';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Weather - Dynamic sky */
+        .container.theme-weather {
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(135, 206, 235, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #0a1a3a 0%, #1a3a5a 50%, #0a2a3a 100%);
+            position: relative;
+        }
+
+        .container.theme-weather::before {
+            content: '☀️ ⛅ 🌧️ ⛈️ ❄️ ☀️ ⛅ 🌧️';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Landmarks - Historic monuments */
+        .container.theme-landmarks {
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 25px,
+                    rgba(139, 69, 19, 0.08) 25px,
+                    rgba(139, 69, 19, 0.08) 50px
+                ),
+                linear-gradient(135deg, #2a1a0a 0%, #4a3a1a 50%, #3a2a0a 100%);
+            position: relative;
+        }
+
+        .container.theme-landmarks::before {
+            content: '🗽 🗼 🏛️ 🕌 🗽 🗼 🏛️ 🕌';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            padding-top: 25%;
+        }
+
+        /* Inventions - Tech innovation */
+        .container.theme-inventions {
+            background:
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 100, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a1a0a 0%, #1a4a2a 50%, #0a2a1a 100%);
+            position: relative;
+        }
+
+        .container.theme-inventions::before {
+            content: '💡 🔧 ⚙️ 🔬 💡 🔧 ⚙️ 🔬';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Plants - Nature garden */
+        .container.theme-plants {
+            background:
+                radial-gradient(circle at 30% 70%, rgba(34, 139, 34, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(144, 238, 144, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a2a0a 0%, #1a4a1a 50%, #0a3a0a 100%);
+            position: relative;
+        }
+
+        .container.theme-plants::before {
+            content: '🌿 🌱 🌾 🌻 🌸 🌿 🌱 🌾';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Abstract Concepts - Mind bending */
+        .container.theme-abstract {
+            background:
+                radial-gradient(circle at 25% 25%, rgba(147, 112, 219, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(255, 165, 0, 0.2) 0%, transparent 40%),
+                linear-gradient(135deg, #1a0f2a 0%, #3a1f5a 50%, #2a0f3a 100%);
+            position: relative;
+        }
+
+        .container.theme-abstract::before {
+            content: '🎨 🧩 💭 🌀 🎨 🧩 💭 🌀';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Memes - Internet culture */
+        .container.theme-memes {
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.25) 0%, transparent 50%),
+                linear-gradient(135deg, #2a2a0a 0%, #4a4a1a 50%, #3a3a0a 100%);
+            position: relative;
+        }
+
+        .container.theme-memes::before {
+            content: '😂 🤣 😆 💀 😂 🤣 😆 💀';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Rituals - Holidays and celebrations */
+        .container.theme-rituals {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 100, 200, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(100, 200, 255, 0.2) 0%, transparent 40%),
+                linear-gradient(135deg, #2a0f2a 0%, #4a1f4a 50%, #3a0f3a 100%);
+            position: relative;
+        }
+
+        .container.theme-rituals::before {
+            content: '🎉 🎊 🎈 🎁 🎉 🎊 🎈 🎁';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Fears - Phobias dark */
+        .container.theme-fears {
+            background:
+                radial-gradient(circle at 30% 70%, rgba(139, 0, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(75, 0, 130, 0.2) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0a1a 0%, #2a0a4a 50%, #0a0a1a 100%);
+            position: relative;
+        }
+
+        .container.theme-fears::before {
+            content: '😨 😱 😰 🫣 😨 😱 😰 🫣';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Viral Trends - Trending social */
+        .container.theme-viral {
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.25) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0f2a 0%, #3a1f5a 50%, #2a0f3a 100%);
+            position: relative;
+        }
+
+        .container.theme-viral::before {
+            content: '📱 🚀 ⬆️ 👍 📱 🚀 ⬆️ 👍';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Impossible - Extreme challenge */
+        .container.theme-impossible {
+            background:
+                radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.2) 0%, transparent 40%),
+                linear-gradient(135deg, #1a0a2a 0%, #4a2a5a 50%, #2a0a3a 100%);
+            position: relative;
+        }
+
+        .container.theme-impossible::before {
+            content: '🧠 💥 🔥 ⚡ 🧠 💥 🔥 ⚡';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.09;
+            letter-spacing: 15px;
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        /* Fictional Duos - Pairs adventure */
+        .container.theme-fictional {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 165, 0, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(135, 206, 250, 0.2) 0%, transparent 40%),
+                linear-gradient(135deg, #1a0f0a 0%, #3a2f1a 50%, #2a1f0a 100%);
+            position: relative;
+        }
+
+        .container.theme-fictional::before {
+            content: '🎬 👥 🎭 ✨ 🎬 👥 🎭 ✨';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Real Life Duos - Real partnerships */
+        .container.theme-reallife {
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(100, 149, 237, 0.1) 0px,
+                    rgba(100, 149, 237, 0.1) 15px,
+                    transparent 15px,
+                    transparent 30px
+                ),
+                linear-gradient(135deg, #0a1a3a 0%, #1a3a5a 50%, #0a2a3a 100%);
+            position: relative;
+        }
+
+        .container.theme-reallife::before {
+            content: '👨‍👩‍👧‍👦 🤝 💑 👥 👨‍👩‍👧‍👦 🤝 💑 👥';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            padding-top: 25%;
+        }
+
+        /* Superheroes - Power city */
+        .container.theme-superheroes {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 69, 0, 0.15) 0%, transparent 40%),
+                linear-gradient(135deg, #0a1a3a 0%, #2a3a5a 50%, #1a2a3a 100%);
+            position: relative;
+        }
+
+        .container.theme-superheroes::before {
+            content: '🦸 💪 🚀 ⚡ 🦸 💪 🚀 ⚡';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Professions - Work world */
+        .container.theme-professions {
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 20px,
+                    rgba(65, 105, 225, 0.08) 20px,
+                    rgba(65, 105, 225, 0.08) 40px
+                ),
+                linear-gradient(135deg, #0a1a3a 0%, #2a4a7a 50%, #1a2a4a 100%);
+            position: relative;
+        }
+
+        .container.theme-professions::before {
+            content: '👨‍⚕️ 👨‍🏫 👨‍💻 👨‍🍳 👨‍⚕️ 👨‍🏫 👨‍💻 👨‍🍳';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.07;
+            letter-spacing: 15px;
             padding-top: 25%;
         }
 
