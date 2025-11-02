@@ -32,6 +32,103 @@
             --blue-200: #90CAF9;
         }
 
+        /* Category Theme Colors */
+        .theme-halloween {
+            --theme-primary: #FF6B35;
+            --theme-secondary: #6B2D5C;
+            --theme-accent: #FFB400;
+        }
+
+        .theme-horror {
+            --theme-primary: #8B0000;
+            --theme-secondary: #330000;
+            --theme-accent: #DC143C;
+        }
+
+        .theme-horror-movies {
+            --theme-primary: #8B0000;
+            --theme-secondary: #330000;
+            --theme-accent: #DC143C;
+        }
+
+        .theme-marvel {
+            --theme-primary: #E23D28;
+            --theme-secondary: #1A1A1A;
+            --theme-accent: #FFD700;
+        }
+
+        .theme-americanhistory {
+            --theme-primary: #B22234;
+            --theme-secondary: #3C3B6B;
+            --theme-accent: #FFFFFF;
+        }
+
+        .theme-superhero {
+            --theme-primary: #FFD700;
+            --theme-secondary: #1E3A8A;
+            --theme-accent: #FF6B6B;
+        }
+
+        .theme-paranormal {
+            --theme-primary: #5B3A70;
+            --theme-secondary: #1F1F2E;
+            --theme-accent: #9D84B7;
+        }
+
+        .theme-desserts {
+            --theme-primary: #E85D75;
+            --theme-secondary: #8B4789;
+            --theme-accent: #F4A261;
+        }
+
+        .theme-movies {
+            --theme-primary: #8B0000;
+            --theme-secondary: #000000;
+            --theme-accent: #FFD700;
+        }
+
+        .theme-tvshows {
+            --theme-primary: #6B4C9A;
+            --theme-secondary: #1E1E2E;
+            --theme-accent: #FF6B9D;
+        }
+
+        .theme-games {
+            --theme-primary: #2D5016;
+            --theme-secondary: #0A0E27;
+            --theme-accent: #00FF41;
+        }
+
+        .theme-music {
+            --theme-primary: #8B008B;
+            --theme-secondary: #1A001A;
+            --theme-accent: #FFD700;
+        }
+
+        .theme-books {
+            --theme-primary: #8B4513;
+            --theme-secondary: #2E1800;
+            --theme-accent: #D4A574;
+        }
+
+        .theme-food {
+            --theme-primary: #FF4500;
+            --theme-secondary: #DC143C;
+            --theme-accent: #FFD700;
+        }
+
+        .theme-sports {
+            --theme-primary: #228B22;
+            --theme-secondary: #0D3B0D;
+            --theme-accent: #FFD700;
+        }
+
+        .theme-jobs {
+            --theme-primary: #4169E1;
+            --theme-secondary: #191970;
+            --theme-accent: #87CEEB;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #0D47A1 0%, #1E88E5 50%, #00BCD4 100%);
@@ -140,6 +237,72 @@
             box-sizing: border-box;
             overflow-x: hidden;
             max-width: 100vw;
+            transition: background 0.5s ease;
+        }
+
+        /* Theme backgrounds for game screen */
+        .container.theme-halloween {
+            background: linear-gradient(135deg, #6B2D5C 0%, #FF6B35 50%, #FFB400 100%) !important;
+        }
+
+        .container.theme-horror {
+            background: linear-gradient(135deg, #330000 0%, #8B0000 50%, #660000 100%) !important;
+        }
+
+        .container.theme-horror-movies {
+            background: linear-gradient(135deg, #330000 0%, #8B0000 50%, #660000 100%) !important;
+        }
+
+        .container.theme-marvel {
+            background: linear-gradient(135deg, #1A1A1A 0%, #E23D28 50%, #333333 100%) !important;
+        }
+
+        .container.theme-americanhistory {
+            background: linear-gradient(135deg, #3C3B6B 0%, #B22234 50%, #1A1A4B 100%) !important;
+        }
+
+        .container.theme-superhero {
+            background: linear-gradient(135deg, #1E3A8A 0%, #FFD700 50%, #E53E3E 100%) !important;
+        }
+
+        .container.theme-paranormal {
+            background: linear-gradient(135deg, #1F1F2E 0%, #5B3A70 50%, #9D84B7 100%) !important;
+        }
+
+        .container.theme-desserts {
+            background: linear-gradient(135deg, #8B4789 0%, #E85D75 50%, #F4A261 100%) !important;
+        }
+
+        .container.theme-movies {
+            background: linear-gradient(135deg, #000000 0%, #8B0000 50%, #1A1A1A 100%) !important;
+        }
+
+        .container.theme-tvshows {
+            background: linear-gradient(135deg, #1E1E2E 0%, #6B4C9A 50%, #FF6B9D 100%) !important;
+        }
+
+        .container.theme-games {
+            background: linear-gradient(135deg, #0A0E27 0%, #2D5016 50%, #1A1A3E 100%) !important;
+        }
+
+        .container.theme-music {
+            background: linear-gradient(135deg, #1A001A 0%, #8B008B 50%, #FF1493 100%) !important;
+        }
+
+        .container.theme-books {
+            background: linear-gradient(135deg, #2E1800 0%, #8B4513 50%, #D4A574 100%) !important;
+        }
+
+        .container.theme-food {
+            background: linear-gradient(135deg, #DC143C 0%, #FF4500 50%, #FFD700 100%) !important;
+        }
+
+        .container.theme-sports {
+            background: linear-gradient(135deg, #0D3B0D 0%, #228B22 50%, #FFD700 100%) !important;
+        }
+
+        .container.theme-jobs {
+            background: linear-gradient(135deg, #191970 0%, #4169E1 50%, #87CEEB 100%) !important;
         }
 
         /* Landscape mode adjustments */
@@ -1744,7 +1907,7 @@
 
             if (gameState === 'category-select') {
                 return (
-                    <div className="container">
+                    <div className={`container ${selectedCategory ? `theme-${selectedCategory}` : ''}`}>
                         <div className="header">
                             <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
                                 {isFullscreen ? '⛶' : '⛶'}
@@ -2008,7 +2171,7 @@
 
             if (gameState === 'playing' && currentWord) {
                 return (
-                    <div className="container">
+                    <div className={`container ${selectedCategory ? `theme-${selectedCategory}` : ''}`}>
                         {tiltFeedback && (
                             <>
                                 <div className={`tilt-feedback ${tiltFeedback}`}></div>
@@ -2101,7 +2264,7 @@
             if (gameState === 'game-over') {
                 const total = score + skipped;
                 return (
-                    <div className="container">
+                    <div className={`container ${selectedCategory ? `theme-${selectedCategory}` : ''}`}>
                         <div className="header">
                             <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
                                 {isFullscreen ? '⛶' : '⛶'}
