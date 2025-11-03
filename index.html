@@ -364,25 +364,45 @@
             background:
                 repeating-linear-gradient(
                     0deg,
-                    rgba(178, 34, 52, 0.5) 0px,
-                    rgba(178, 34, 52, 0.5) 30px,
-                    rgba(60, 59, 107, 0.5) 30px,
-                    rgba(60, 59, 107, 0.5) 60px
+                    #BB2234 0px,
+                    #BB2234 35px,
+                    #FFFFFF 35px,
+                    #FFFFFF 70px
                 ),
-                linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+                linear-gradient(90deg, #0A3161 0%, #0A3161 40%, #FFFFFF 40%, #FFFFFF 45%, #BB2234 45%, #BB2234 100%);
             position: relative;
+            background-size: 100% 100%, 100% 100%;
+            background-attachment: fixed;
         }
 
         .container.theme-americanhistory::before {
-            content: '⭐';
+            content: '⭐ ⭐ ⭐';
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            font-size: 60px;
+            opacity: 0.3;
+            letter-spacing: 15px;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .container.theme-americanhistory::after {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            font-size: 120px;
-            opacity: 0.08;
-            overflow: hidden;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 20px,
+                    rgba(255, 255, 255, 0.02) 20px,
+                    rgba(255, 255, 255, 0.02) 40px
+                );
+            pointer-events: none;
         }
 
         /* Superhero - Bold with power effects */
