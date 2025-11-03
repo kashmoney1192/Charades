@@ -359,50 +359,23 @@
             );
         }
 
-        /* American History - Patriotic flag waves */
+        /* American History - Neon blue, red, white fog */
         .container.theme-americanhistory {
             background:
-                repeating-linear-gradient(
-                    0deg,
-                    #BB2234 0px,
-                    #BB2234 35px,
-                    #FFFFFF 35px,
-                    #FFFFFF 70px
-                ),
-                linear-gradient(90deg, #0A3161 0%, #0A3161 40%, #FFFFFF 40%, #FFFFFF 45%, #BB2234 45%, #BB2234 100%);
+                radial-gradient(circle at 30% 30%, rgba(0, 150, 255, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 0, 0, 0.25) 0%, transparent 40%),
+                linear-gradient(135deg, #0a2a5a 0%, #1a4a7a 50%, #0a1a3a 100%);
             position: relative;
-            background-size: 100% 100%, 100% 100%;
-            background-attachment: fixed;
         }
 
         .container.theme-americanhistory::before {
-            content: '⭐ ⭐ ⭐';
+            content: '⭐ 🇺🇸 ⭐ 🇺🇸 ⭐';
             position: absolute;
-            top: 5%;
-            left: 5%;
-            font-size: 60px;
-            opacity: 0.3;
-            letter-spacing: 15px;
-            color: #FFFFFF;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .container.theme-americanhistory::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background:
-                repeating-linear-gradient(
-                    0deg,
-                    transparent 0px,
-                    transparent 20px,
-                    rgba(255, 255, 255, 0.02) 20px,
-                    rgba(255, 255, 255, 0.02) 40px
-                );
-            pointer-events: none;
+            font-size: 80px;
+            opacity: 0.08;
+            letter-spacing: 20px;
+            animation: float 6s ease-in-out infinite;
         }
 
         /* Superhero - Bold with power effects */
