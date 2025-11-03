@@ -958,6 +958,25 @@
             animation: float 5s ease-in-out infinite;
         }
 
+        /* Old School & Vintage Jobs - Gray vintage */
+        .container.theme-jobs_old_school {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(169, 169, 169, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(128, 128, 128, 0.25) 0%, transparent 50%),
+                linear-gradient(135deg, #A9A9A9 0%, #808080 50%, #696969 100%);
+            position: relative;
+        }
+
+        .container.theme-jobs_old_school::before {
+            content: '⚙️ 🔧 ⚒️ 🛠️ ⚙️ 🔧 ⚒️ 🛠️';
+            position: absolute;
+            width: 100%;
+            font-size: 70px;
+            opacity: 0.08;
+            letter-spacing: 15px;
+            animation: float 5s ease-in-out infinite;
+        }
+
         /* Landscape mode adjustments */
         @media (max-height: 600px) and (orientation: landscape) {
             #root {
