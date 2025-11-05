@@ -1432,6 +1432,129 @@
             box-shadow: 0 8px 20px rgba(38, 198, 218, 0.5);
         }
 
+        /* Settings Controls */
+        .settings-option-btn,
+        .difficulty-btn,
+        .mode-btn,
+        .animation-btn,
+        .theme-btn,
+        .order-btn {
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-option-btn:hover,
+        .difficulty-btn:hover,
+        .mode-btn:hover,
+        .animation-btn:hover,
+        .theme-btn:hover,
+        .order-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 6px 16px rgba(30, 136, 229, 0.3);
+        }
+
+        .settings-option-btn.active,
+        .difficulty-btn.active,
+        .mode-btn.active,
+        .animation-btn.active,
+        .theme-btn.active,
+        .order-btn.active {
+            background: linear-gradient(135deg, #00BCD4 0%, #26C6DA 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(38, 198, 218, 0.5);
+        }
+
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .toggle-switch.enabled {
+            background: linear-gradient(135deg, rgba(0, 188, 212, 0.3), rgba(38, 198, 218, 0.2));
+            border-color: rgba(0, 188, 212, 0.5);
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #00BCD4, #26C6DA);
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0, 188, 212, 0.5);
+        }
+
+        .slider-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .settings-buttons-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .category-label {
             font-size: 16px;
             font-weight: 700;
@@ -2434,6 +2557,24 @@
             const [deviceType, setDeviceType] = useState(null); // 'iphone', 'tablet', 'pc', or null
             const [screenOrientation, setScreenOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
             const [categorySearch, setCategorySearch] = useState(''); // Search query for categories
+
+            // New Settings
+            const [soundEnabled, setSoundEnabled] = useState(true);
+            const [soundVolume, setSoundVolume] = useState(50);
+            const [difficulty, setDifficulty] = useState('medium'); // easy, medium, hard, extreme
+            const [gameMode, setGameMode] = useState('timed'); // timed or words
+            const [wordsPerRound, setWordsPerRound] = useState(10);
+            const [animationSpeed, setAnimationSpeed] = useState('normal'); // none, slow, normal, fast
+            const [backgroundEffectsEnabled, setBackgroundEffectsEnabled] = useState(true);
+            const [hintsEnabled, setHintsEnabled] = useState(true);
+            const [maxHints, setMaxHints] = useState(3);
+            const [hintsUsed, setHintsUsed] = useState(0);
+            const [darkMode, setDarkMode] = useState(false);
+            const [categoryOrder, setCategoryOrder] = useState('all'); // all, favorites, recent
+            const [favorites, setFavorites] = useState(new Set());
+            const [recentCategories, setRecentCategories] = useState([]);
+            const [scoreMultipliersEnabled, setScoreMultipliersEnabled] = useState(true);
+
             const timerRef = useRef(null);
             const gameStartTimeRef = useRef(null);
             const tiltCooldownRef = useRef(0);
@@ -2474,6 +2615,8 @@
 
             // Play sound effect
             function playSound(frequency = 800, duration = 0.2) {
+                if (!soundEnabled) return; // Respect sound setting
+
                 try {
                     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     const oscillator = audioContext.createOscillator();
@@ -2485,8 +2628,9 @@
                     oscillator.frequency.value = frequency;
                     oscillator.type = 'sine';
 
-                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    const volumeMultiplier = soundVolume / 100; // Convert 0-100 to 0-1
+                    gainNode.gain.setValueAtTime(0.2 * volumeMultiplier, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01 * volumeMultiplier, audioContext.currentTime + duration);
 
                     oscillator.start(audioContext.currentTime);
                     oscillator.stop(audioContext.currentTime + duration);
@@ -2823,7 +2967,7 @@
                                 style={{
                                     position: 'absolute',
                                     top: '20px',
-                                    right: '20px',
+                                    left: '20px',
                                     padding: '12px 16px',
                                     fontSize: '18px',
                                     fontWeight: '700',
@@ -3193,6 +3337,7 @@
                         </div>
 
                         <div className="category-selector" style={{ paddingTop: '20px' }}>
+                            {/* Game Duration */}
                             <div className="timer-settings">
                                 <div className="timer-settings-label">⏱️ Game Duration (seconds)</div>
                                 <div className="timer-input-group">
@@ -3228,10 +3373,189 @@
                                 </div>
                             </div>
 
+                            {/* Game Mode */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">🎮 Game Mode</div>
+                                <div className="settings-buttons-group">
+                                    <button
+                                        className={`mode-btn ${gameMode === 'timed' ? 'active' : ''}`}
+                                        onClick={() => setGameMode('timed')}
+                                    >
+                                        ⏱️ Timed
+                                    </button>
+                                    <button
+                                        className={`mode-btn ${gameMode === 'words' ? 'active' : ''}`}
+                                        onClick={() => setGameMode('words')}
+                                    >
+                                        📝 Words
+                                    </button>
+                                </div>
+                                {gameMode === 'words' && (
+                                    <div className="timer-input-group" style={{ marginTop: '10px' }}>
+                                        <input
+                                            type="number"
+                                            min="5"
+                                            max="50"
+                                            value={wordsPerRound}
+                                            onChange={(e) => setWordsPerRound(Math.max(5, Math.min(50, parseInt(e.target.value) || 10)))}
+                                        />
+                                        <span style={{ fontSize: '14px', color: '#666' }}>words</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Difficulty */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">📊 Difficulty Level</div>
+                                <div className="settings-buttons-group">
+                                    {['easy', 'medium', 'hard', 'extreme'].map((diff) => (
+                                        <button
+                                            key={diff}
+                                            className={`difficulty-btn ${difficulty === diff ? 'active' : ''}`}
+                                            onClick={() => setDifficulty(diff)}
+                                        >
+                                            {diff.charAt(0).toUpperCase() + diff.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Sound */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">🔊 Sound & Audio</div>
+                                <button
+                                    className={`toggle-switch ${soundEnabled ? 'enabled' : ''}`}
+                                    onClick={() => setSoundEnabled(!soundEnabled)}
+                                    style={{ justifyContent: 'center' }}
+                                >
+                                    {soundEnabled ? '✓' : '✕'} Sound Effects
+                                </button>
+                                {soundEnabled && (
+                                    <div style={{ marginTop: '10px' }}>
+                                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>Volume: {soundVolume}%</div>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="100"
+                                            value={soundVolume}
+                                            onChange={(e) => setSoundVolume(parseInt(e.target.value))}
+                                            className="slider"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Animation & Effects */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">✨ Animation & Effects</div>
+                                <button
+                                    className={`toggle-switch ${backgroundEffectsEnabled ? 'enabled' : ''}`}
+                                    onClick={() => setBackgroundEffectsEnabled(!backgroundEffectsEnabled)}
+                                    style={{ justifyContent: 'center' }}
+                                >
+                                    {backgroundEffectsEnabled ? '✓' : '✕'} Background Effects
+                                </button>
+                                <div style={{ marginTop: '12px' }}>
+                                    <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>Animation Speed</div>
+                                    <div className="settings-buttons-group">
+                                        {['none', 'slow', 'normal', 'fast'].map((speed) => (
+                                            <button
+                                                key={speed}
+                                                className={`animation-btn ${animationSpeed === speed ? 'active' : ''}`}
+                                                onClick={() => setAnimationSpeed(speed)}
+                                            >
+                                                {speed.charAt(0).toUpperCase() + speed.slice(1)}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Hints */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">💡 Hints System</div>
+                                <button
+                                    className={`toggle-switch ${hintsEnabled ? 'enabled' : ''}`}
+                                    onClick={() => setHintsEnabled(!hintsEnabled)}
+                                    style={{ justifyContent: 'center' }}
+                                >
+                                    {hintsEnabled ? '✓' : '✕'} Enable Hints
+                                </button>
+                                {hintsEnabled && (
+                                    <div className="timer-input-group" style={{ marginTop: '10px' }}>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="10"
+                                            value={maxHints}
+                                            onChange={(e) => setMaxHints(Math.max(1, Math.min(10, parseInt(e.target.value) || 3)))}
+                                        />
+                                        <span style={{ fontSize: '14px', color: '#666' }}>max hints</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Theme */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">🎨 Theme</div>
+                                <div className="settings-buttons-group">
+                                    <button
+                                        className={`theme-btn ${!darkMode ? 'active' : ''}`}
+                                        onClick={() => setDarkMode(false)}
+                                    >
+                                        ☀️ Light
+                                    </button>
+                                    <button
+                                        className={`theme-btn ${darkMode ? 'active' : ''}`}
+                                        onClick={() => setDarkMode(true)}
+                                    >
+                                        🌙 Dark
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Category Management */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">📂 Category Order</div>
+                                <div className="settings-buttons-group">
+                                    <button
+                                        className={`order-btn ${categoryOrder === 'all' ? 'active' : ''}`}
+                                        onClick={() => setCategoryOrder('all')}
+                                    >
+                                        📋 All
+                                    </button>
+                                    <button
+                                        className={`order-btn ${categoryOrder === 'favorites' ? 'active' : ''}`}
+                                        onClick={() => setCategoryOrder('favorites')}
+                                    >
+                                        ❤️ Favorites
+                                    </button>
+                                    <button
+                                        className={`order-btn ${categoryOrder === 'recent' ? 'active' : ''}`}
+                                        onClick={() => setCategoryOrder('recent')}
+                                    >
+                                        🕐 Recent
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Score Multipliers */}
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">⭐ Score Multipliers</div>
+                                <button
+                                    className={`toggle-switch ${scoreMultipliersEnabled ? 'enabled' : ''}`}
+                                    onClick={() => setScoreMultipliersEnabled(!scoreMultipliersEnabled)}
+                                    style={{ justifyContent: 'center' }}
+                                >
+                                    {scoreMultipliersEnabled ? '✓' : '✕'} Difficulty Bonus
+                                </button>
+                            </div>
+
+                            {/* Action Buttons */}
                             <button
                                 className="reset-btn"
                                 onClick={() => setGameState('category-select')}
-                                style={{ marginTop: '30px' }}
+                                style={{ marginTop: '20px' }}
                             >
                                 Back to Categories
                             </button>
