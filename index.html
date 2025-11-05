@@ -2820,40 +2820,35 @@
                         </div>
 
                         <div className="category-selector">
-                            <div className="timer-settings">
-                                <div className="timer-settings-label">⏱️ Game Duration (seconds)</div>
-                                <div className="timer-input-group">
-                                    <input
-                                        type="number"
-                                        min="10"
-                                        max="600"
-                                        value={customTime}
-                                        onChange={(e) => {
-                                            const val = e.target.value;
-                                            setCustomTime(val);
-                                            const num = parseInt(val);
-                                            if (num >= 10 && num <= 600) {
-                                                setGameDuration(num);
-                                            }
-                                        }}
-                                    />
-                                    <span style={{ fontSize: '14px', color: '#666' }}>seconds</span>
-                                </div>
-                                <div className="timer-preset-btns">
-                                    {[30, 45, 60, 90, 120].map((time) => (
-                                        <button
-                                            key={time}
-                                            className={`timer-preset-btn ${gameDuration === time ? 'active' : ''}`}
-                                            onClick={() => {
-                                                setGameDuration(time);
-                                                setCustomTime(time.toString());
-                                            }}
-                                        >
-                                            {time}s
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
+                            <button
+                                className="settings-btn"
+                                onClick={() => setGameState('settings')}
+                                style={{
+                                    position: 'absolute',
+                                    top: '20px',
+                                    right: '20px',
+                                    padding: '12px 16px',
+                                    fontSize: '18px',
+                                    fontWeight: '700',
+                                    background: 'rgba(255, 255, 255, 0.2)',
+                                    color: 'white',
+                                    border: '2px solid rgba(255, 255, 255, 0.3)',
+                                    borderRadius: '12px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    backdropFilter: 'blur(20px)'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.3)';
+                                    e.target.style.transform = 'scale(1.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                    e.target.style.transform = 'scale(1)';
+                                }}
+                            >
+                                ⚙️ Settings
+                            </button>
 
                             <div className="category-label">Choose a Category:</div>
 
@@ -3183,6 +3178,65 @@
                             </div>
                             <button className="reset-btn" onClick={resetGame}>
                                 Play Again
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (gameState === 'settings') {
+                return (
+                    <div className="container">
+                        <div className="header">
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                                {isFullscreen ? '⛶' : '⛶'}
+                            </button>
+                            <div className="title">⚙️ Settings</div>
+                            <div className="subtitle">Customize your game experience</div>
+                        </div>
+
+                        <div className="category-selector" style={{ paddingTop: '20px' }}>
+                            <div className="timer-settings">
+                                <div className="timer-settings-label">⏱️ Game Duration (seconds)</div>
+                                <div className="timer-input-group">
+                                    <input
+                                        type="number"
+                                        min="10"
+                                        max="600"
+                                        value={customTime}
+                                        onChange={(e) => {
+                                            const val = e.target.value;
+                                            setCustomTime(val);
+                                            const num = parseInt(val);
+                                            if (num >= 10 && num <= 600) {
+                                                setGameDuration(num);
+                                            }
+                                        }}
+                                    />
+                                    <span style={{ fontSize: '14px', color: '#666' }}>seconds</span>
+                                </div>
+                                <div className="timer-preset-btns">
+                                    {[30, 45, 60, 90, 120].map((time) => (
+                                        <button
+                                            key={time}
+                                            className={`timer-preset-btn ${gameDuration === time ? 'active' : ''}`}
+                                            onClick={() => {
+                                                setGameDuration(time);
+                                                setCustomTime(time.toString());
+                                            }}
+                                        >
+                                            {time}s
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button
+                                className="reset-btn"
+                                onClick={() => setGameState('category-select')}
+                                style={{ marginTop: '30px' }}
+                            >
+                                Back to Categories
                             </button>
                         </div>
                     </div>
