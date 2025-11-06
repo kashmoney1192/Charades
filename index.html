@@ -2927,6 +2927,27 @@
                 setCurrentWord(null);
             };
 
+            // Reset all settings to defaults
+            const resetSettings = () => {
+                setSoundEnabled(true);
+                setSoundVolume(50);
+                setDifficulty('medium');
+                setGameMode('timed');
+                setWordsPerRound(10);
+                setAnimationSpeed('normal');
+                setBackgroundEffectsEnabled(true);
+                setHintsEnabled(true);
+                setMaxHints(3);
+                setHintsUsed(0);
+                setDarkMode(false);
+                setCategoryOrder('all');
+                setFavorites(new Set());
+                setRecentCategories([]);
+                setScoreMultipliersEnabled(true);
+                setGameDuration(INITIAL_TIME);
+                setCustomTime(INITIAL_TIME.toString());
+            };
+
             // Device selection screen
             if (deviceType === null) {
                 return (
@@ -3733,13 +3754,26 @@
                             </div>
 
                             {/* Action Buttons */}
-                            <button
-                                className="reset-btn"
-                                onClick={() => setGameState('category-select')}
-                                style={{ marginTop: '20px' }}
-                            >
-                                Back to Categories
-                            </button>
+                            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
+                                <button
+                                    className="reset-btn"
+                                    onClick={() => {
+                                        resetSettings();
+                                        alert('Settings reset to defaults!');
+                                    }}
+                                    style={{ flex: '1', minWidth: '150px', background: 'rgba(255, 100, 100, 0.3)', borderColor: 'rgba(255, 100, 100, 0.5)' }}
+                                    title="Reset all settings to their default values"
+                                >
+                                    🔄 Reset to Defaults
+                                </button>
+                                <button
+                                    className="reset-btn"
+                                    onClick={() => setGameState('category-select')}
+                                    style={{ flex: '1', minWidth: '150px' }}
+                                >
+                                    Back to Categories
+                                </button>
+                            </div>
                         </div>
                     </div>
                 );
