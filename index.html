@@ -275,6 +275,16 @@
             padding: 10px max(12px, env(safe-area-inset-left)) 10px max(12px, env(safe-area-inset-right));
         }
 
+        /* Settings page: enable smooth scrolling */
+        .container.settings-page {
+            height: 100vh;
+            min-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 12px max(12px, env(safe-area-inset-left)) 12px max(12px, env(safe-area-inset-right));
+        }
+
         /* Theme backgrounds for game screen */
         /* Halloween - Orange and black colors */
         .container.theme-halloween {
@@ -3552,7 +3562,7 @@
 
             if (gameState === 'settings') {
                 return (
-                    <div className="container">
+                    <div className="container settings-page">
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px 14px', background: 'rgba(0, 0, 0, 0.1)', borderRadius: '14px', marginBottom: '12px' }}>
                             <button
                                 onClick={() => setGameState('category-select')}
