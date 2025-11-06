@@ -3531,11 +3531,37 @@
                 return (
                     <div className="container">
                         <div className="header">
-                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
-                                {isFullscreen ? '⛶' : '⛶'}
+                            <button
+                                className="fullscreen-btn"
+                                onClick={() => setGameState('category-select')}
+                                title="Back to categories"
+                                style={{
+                                    fontSize: '24px',
+                                    padding: '10px 14px',
+                                    background: 'rgba(255, 255, 255, 0.2)',
+                                    color: 'white',
+                                    border: '2px solid rgba(255, 255, 255, 0.3)',
+                                    borderRadius: '12px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    backdropFilter: 'blur(20px)'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.3)';
+                                    e.target.style.transform = 'scale(1.1)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.2)';
+                                    e.target.style.transform = 'scale(1)';
+                                }}
+                            >
+                                ← Back
                             </button>
                             <div className="title">⚙️ Settings</div>
                             <div className="subtitle">Customize your game experience</div>
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                                {isFullscreen ? '⛶' : '⛶'}
+                            </button>
                         </div>
 
                         <div className="category-selector" style={{ paddingTop: '20px' }}>
