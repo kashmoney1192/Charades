@@ -2525,22 +2525,49 @@
 
         // Audio context for sound effect
         function playTimeUpSound() {
+            // Only play if sound is enabled
+            if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
+
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
 
-                oscillator.connect(gainNode);
+                // Create buzzer/alarm sound with two oscillators for a more noticeable alarm
+                const osc1 = audioContext.createOscillator();
+                const osc2 = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                const gainNode1 = audioContext.createGain();
+                const gainNode2 = audioContext.createGain();
+
+                osc1.connect(gainNode1);
+                osc2.connect(gainNode2);
+                gainNode1.connect(gainNode);
+                gainNode2.connect(gainNode);
                 gainNode.connect(audioContext.destination);
 
-                oscillator.frequency.value = 800;
-                oscillator.type = 'sine';
+                // Create alarm pattern with alternating frequencies
+                const now = audioContext.currentTime;
+                const duration = 0.15;
 
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                for (let i = 0; i < 3; i++) {
+                    const startTime = now + (i * duration * 2);
 
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.5);
+                    osc1.frequency.setValueAtTime(900, startTime);
+                    osc2.frequency.setValueAtTime(700, startTime);
+
+                    gainNode1.gain.setValueAtTime(0.3, startTime);
+                    gainNode2.gain.setValueAtTime(0.3, startTime);
+
+                    gainNode1.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                    gainNode2.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                }
+
+                osc1.type = 'sine';
+                osc2.type = 'sine';
+
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + (3 * duration * 2));
+                osc2.stop(now + (3 * duration * 2));
             } catch (e) {
                 console.log('Audio not supported');
             }
