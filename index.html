@@ -3530,7 +3530,7 @@
             if (gameState === 'settings') {
                 return (
                     <div className="container">
-                        <div className="header">
+                        <div className="header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
                             <button
                                 className="fullscreen-btn"
                                 onClick={() => setGameState('category-select')}
@@ -3544,7 +3544,9 @@
                                     borderRadius: '12px',
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
-                                    backdropFilter: 'blur(20px)'
+                                    backdropFilter: 'blur(20px)',
+                                    position: 'absolute',
+                                    left: '20px'
                                 }}
                                 onMouseEnter={(e) => {
                                     e.target.style.background = 'rgba(255, 255, 255, 0.3)';
@@ -3557,9 +3559,11 @@
                             >
                                 ← Back
                             </button>
-                            <div className="title">⚙️ Settings</div>
-                            <div className="subtitle">Customize your game experience</div>
-                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
+                            <div style={{ flex: 1, textAlign: 'center' }}>
+                                <div className="title">⚙️ Settings</div>
+                                <div className="subtitle">Customize your game experience</div>
+                            </div>
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen" style={{ position: 'absolute', right: '20px' }}>
                                 {isFullscreen ? '⛶' : '⛶'}
                             </button>
                         </div>
