@@ -3538,13 +3538,12 @@
             if (gameState === 'settings') {
                 return (
                     <div className="container">
-                        <div className="header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '20px', padding: '20px', background: 'rgba(0, 0, 0, 0.1)', borderRadius: '16px', marginBottom: '20px' }}>
                             <button
-                                className="fullscreen-btn"
                                 onClick={() => setGameState('category-select')}
                                 title="Back to categories"
                                 style={{
-                                    fontSize: '24px',
+                                    fontSize: '18px',
                                     padding: '10px 14px',
                                     background: 'rgba(255, 255, 255, 0.2)',
                                     color: 'white',
@@ -3553,12 +3552,12 @@
                                     cursor: 'pointer',
                                     transition: 'all 0.3s ease',
                                     backdropFilter: 'blur(20px)',
-                                    position: 'absolute',
-                                    left: '20px'
+                                    fontWeight: '600',
+                                    whiteSpace: 'nowrap'
                                 }}
                                 onMouseEnter={(e) => {
                                     e.target.style.background = 'rgba(255, 255, 255, 0.3)';
-                                    e.target.style.transform = 'scale(1.1)';
+                                    e.target.style.transform = 'scale(1.05)';
                                 }}
                                 onMouseLeave={(e) => {
                                     e.target.style.background = 'rgba(255, 255, 255, 0.2)';
@@ -3571,7 +3570,7 @@
                                 <div className="title">⚙️ Settings</div>
                                 <div className="subtitle">Customize your game experience</div>
                             </div>
-                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen" style={{ position: 'absolute', right: '20px' }}>
+                            <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen" style={{ padding: '10px 14px', whiteSpace: 'nowrap' }}>
                                 {isFullscreen ? '⛶' : '⛶'}
                             </button>
                         </div>
