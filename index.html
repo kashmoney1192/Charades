@@ -3149,9 +3149,23 @@
 
                             <div className="category-grid">
                                 {Object.entries(CATEGORIES)
-                                    .filter(([key, cat]) =>
-                                        cat.name.toLowerCase().includes(categorySearch.toLowerCase())
-                                    )
+                                    .filter(([key, cat]) => {
+                                        // Search filter
+                                        const matchesSearch = cat.name.toLowerCase().includes(categorySearch.toLowerCase());
+
+                                        // Difficulty filter
+                                        let matchesDifficulty = true;
+                                        if (difficulty === 'hard') {
+                                            // Hard mode: only (Hard) and (EXTREME Hard) categories
+                                            matchesDifficulty = cat.name.includes('(Hard)') || cat.name.includes('(EXTREME Hard)');
+                                        } else if (difficulty === 'extreme') {
+                                            // Extreme mode: only (EXTREME Hard) categories
+                                            matchesDifficulty = cat.name.includes('(EXTREME Hard)');
+                                        }
+                                        // Easy and Medium: all categories
+
+                                        return matchesSearch && matchesDifficulty;
+                                    })
                                     .map(([key, cat]) => (
                                     <button
                                         key={key}
@@ -3166,9 +3180,16 @@
                             </div>
 
                             {/* No results message */}
-                            {categorySearch && Object.entries(CATEGORIES).filter(([key, cat]) =>
-                                cat.name.toLowerCase().includes(categorySearch.toLowerCase())
-                            ).length === 0 && (
+                            {(categorySearch || (difficulty === 'hard' || difficulty === 'extreme')) && Object.entries(CATEGORIES).filter(([key, cat]) => {
+                                const matchesSearch = cat.name.toLowerCase().includes(categorySearch.toLowerCase());
+                                let matchesDifficulty = true;
+                                if (difficulty === 'hard') {
+                                    matchesDifficulty = cat.name.includes('(Hard)') || cat.name.includes('(EXTREME Hard)');
+                                } else if (difficulty === 'extreme') {
+                                    matchesDifficulty = cat.name.includes('(EXTREME Hard)');
+                                }
+                                return matchesSearch && matchesDifficulty;
+                            }).length === 0 && (
                                 <div style={{
                                     textAlign: 'center',
                                     color: 'rgba(255, 255, 255, 0.7)',
