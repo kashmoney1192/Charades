@@ -347,12 +347,15 @@
         }
 
         .container.theme-marvel::before {
-            content: '';
+            content: '⭐ 🦸 ⭐ 🦹 ⭐ 🦸 ⭐ 🦹 ⭐';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            opacity: 0.06;
+            font-size: 120px;
+            color: #FFD700;
             background: linear-gradient(
                 to bottom,
                 rgba(0, 0, 0, 0) 0%,
@@ -361,6 +364,11 @@
                 rgba(0, 0, 0, 0.6) 100%
             );
             pointer-events: none;
+            letter-spacing: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* American History - Neon blue, red, white fog */
