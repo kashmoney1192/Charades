@@ -3362,6 +3362,18 @@
                             <div className="controls">
                                 <button
                                     className="btn btn-secondary"
+                                    onClick={() => {
+                                        if (hintsUsed < maxHints) {
+                                            setHintsUsed(hintsUsed + 1);
+                                        }
+                                    }}
+                                    disabled={hintsUsed >= maxHints}
+                                    title={`Hints: ${maxHints - hintsUsed} remaining`}
+                                >
+                                    💡 Hint ({maxHints - hintsUsed})
+                                </button>
+                                <button
+                                    className="btn btn-secondary"
                                     onClick={handleSkip}
                                 >
                                     ⏭️ Skip
@@ -3386,25 +3398,61 @@
 
             if (gameState === 'game-over') {
                 const total = score + skipped;
+                const accuracy = total === 0 ? 0 : Math.round((score / total) * 100);
                 return (
                     <div className={`container ${selectedCategory ? `theme-${selectedCategory}` : ''}`}>
                         <div className="header">
                             <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
                                 {isFullscreen ? '⛶' : '⛶'}
                             </button>
-                            <div className="timestamp">Last updated: {new Date().toLocaleString()}</div>
+                            <div className="timestamp">Round Complete</div>
                         </div>
                         <div className="game-over-screen">
-                            <div className="game-over-title">⏱️ Time's Up!</div>
-                            <div className="final-score">{score}</div>
-                            <div className="message">
-                                {total === 0
-                                    ? 'No words guessed. Try again!'
-                                    : `${score} correct out of ${total} total!`}
+                            <div className="game-over-title">🎉 Round Summary</div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', margin: '40px 0', padding: '30px', background: 'rgba(255,255,255,0.1)', borderRadius: '20px', backdropFilter: 'blur(10px)' }}>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>Total Words</div>
+                                    <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#fff' }}>{total}</div>
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>Accuracy</div>
+                                    <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#4ade80' }}>{accuracy}%</div>
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>✓ Guessed</div>
+                                    <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#60a5fa' }}>{score}</div>
+                                </div>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '10px' }}>⏭️ Skipped</div>
+                                    <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#fbbf24' }}>{skipped}</div>
+                                </div>
                             </div>
-                            <button className="reset-btn" onClick={resetGame}>
-                                Play Again
-                            </button>
+                            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                                <button
+                                    className="reset-btn"
+                                    onClick={() => {
+                                        setGameState('playing');
+                                        setScore(0);
+                                        setSkipped(0);
+                                        setHintsUsed(0);
+                                        setUsedWords(new Set());
+                                        const timerDuration = getTimerDuration();
+                                        setTimeLeft(timerDuration);
+                                        setCurrentWord(getRandomWord(selectedCategory));
+                                        gameStartTimeRef.current = Date.now();
+                                    }}
+                                    style={{ flex: '1', minWidth: '150px' }}
+                                >
+                                    🔄 Play Again
+                                </button>
+                                <button
+                                    className="reset-btn"
+                                    onClick={resetGame}
+                                    style={{ flex: '1', minWidth: '150px', background: 'rgba(255,255,255,0.1)' }}
+                                >
+                                    🎯 Change Category
+                                </button>
+                            </div>
                         </div>
                     </div>
                 );
