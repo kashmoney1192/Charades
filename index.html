@@ -145,23 +145,25 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #0D47A1 0%, #1E88E5 50%, #00BCD4 100%);
             background-size: 400% 400%;
+            background-attachment: fixed;
             animation: gradientShift 20s ease infinite;
             min-height: 100vh;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding: 0;
             color: var(--white);
             overflow-x: hidden;
-            padding-left: max(10px, env(safe-area-inset-left));
-            padding-right: max(10px, env(safe-area-inset-right));
             transition: background 0.5s ease;
+            margin: 0;
         }
 
         /* Dark mode background */
         body.dark-mode {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             background-size: 400% 400%;
+            background-attachment: fixed;
         }
 
         @keyframes gradientShift {
@@ -395,6 +397,7 @@
         /* Container */
         .container {
             background: linear-gradient(180deg, rgba(30, 136, 229, 0.95) 0%, rgba(0, 188, 212, 0.95) 100%);
+            background-attachment: fixed;
             backdrop-filter: blur(20px);
             border-radius: 0;
             box-shadow: none;
@@ -407,7 +410,7 @@
             box-sizing: border-box;
             overflow: auto;
             overflow-x: hidden;
-            max-width: 100vw;
+            max-width: 100%;
             transition: background 0.5s ease;
         }
 
