@@ -2874,6 +2874,7 @@
             const [scoreMultipliersEnabled, setScoreMultipliersEnabled] = useState(true);
             const [showSplash, setShowSplash] = useState(true); // Show splash screen on initial load
             const [actionFeedback, setActionFeedback] = useState(null); // 'correct' or 'skip' for feedback animation
+            const [deviceSupportsOrientation, setDeviceSupportsOrientation] = useState(false);
 
             const timerRef = useRef(null);
             const gameStartTimeRef = useRef(null);
