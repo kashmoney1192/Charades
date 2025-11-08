@@ -2946,6 +2946,12 @@
                 }
             };
 
+            // Handle orientation changes - MUST be defined before useEffect
+            const handleOrientationChange = () => {
+                // Just a no-op handler to prevent errors
+                // The app handles responsive design via CSS
+            };
+
             // Play sound effect
             function playSound(frequency = 800, duration = 0.2) {
                 if (!soundEnabled) return; // Respect sound setting
@@ -2971,12 +2977,6 @@
                     console.log('Audio not supported');
                 }
             }
-
-            // Handle orientation changes
-            const handleOrientationChange = () => {
-                // Just a no-op handler to prevent errors
-                // The app handles responsive design via CSS
-            };
 
             // Detect device type
             useEffect(() => {
