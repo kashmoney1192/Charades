@@ -2977,14 +2977,6 @@
                 setDeviceType(detected);
             }, []);
 
-            // Check for device orientation support
-            useEffect(() => {
-                const hasOrientation =
-                    typeof window !== 'undefined' &&
-                    (typeof DeviceOrientationEvent !== 'undefined' || 'ontouchstart' in window);
-                setDeviceSupportsOrientation(hasOrientation);
-            }, []);
-
             // Get random word from category
             const getRandomWord = (category) => {
                 const words = CATEGORIES[category].words;
