@@ -2850,9 +2850,6 @@
             const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
             const [usedWords, setUsedWords] = useState(new Set());
             const [isFullscreen, setIsFullscreen] = useState(false);
-            const [tiltEnabled, setTiltEnabled] = useState(false);
-            const [tiltFeedback, setTiltFeedback] = useState(null);
-            const [deviceSupportsOrientation, setDeviceSupportsOrientation] = useState(false);
             const [gameDuration, setGameDuration] = useState(INITIAL_TIME);
             const [customTime, setCustomTime] = useState(INITIAL_TIME.toString());
             const [deviceType, setDeviceType] = useState(null); // 'iphone', 'tablet', 'pc', or null
@@ -2880,8 +2877,6 @@
 
             const timerRef = useRef(null);
             const gameStartTimeRef = useRef(null);
-            const tiltCooldownRef = useRef(0);
-            const lastBetaRef = useRef(0);
 
             // Toggle fullscreen mode (actual browser fullscreen like YouTube)
             const toggleFullscreen = () => {
@@ -2950,12 +2945,6 @@
                 }
             };
 
-            // Handle orientation change
-            const handleOrientationChange = () => {
-                const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
-                setScreenOrientation(newOrientation);
-            };
-
             // Play sound effect
             function playSound(frequency = 800, duration = 0.2) {
                 if (!soundEnabled) return; // Respect sound setting
@@ -2982,134 +2971,7 @@
                 }
             }
 
-            // Handle tilt detection
-            const handleTilt = React.useCallback((event) => {
-                const now = Date.now();
-                if (now - tiltCooldownRef.current < 500) return; // 0.5 second cooldown for responsiveness
-
-                const beta = event.beta;   // x rotation: -180 to 180 (pitch)
-                const gamma = event.gamma;  // y rotation: -90 to 90 (roll)
-
-                console.log('Tilt - Beta:', beta, 'Gamma:', gamma, 'Orientation:', screenOrientation);
-                lastBetaRef.current = beta;
-
-                let actionTriggered = false;
-
-                // In landscape mode (phone on forehead horizontally)
-                if (screenOrientation === 'landscape') {
-                    // Tilt DOWN (phone tilts down away from forehead) = correct
-                    // In landscape, gamma goes negative when tilting down
-                    if (gamma < -25) {
-                        console.log('CORRECT detected (landscape down tilt)');
-                        tiltCooldownRef.current = now;
-                        setTiltFeedback('correct');
-                        playSound(1200, 0.15);
-
-                        const multiplier = getScoreMultiplier();
-                        setScore(prev => prev + Math.floor(1 * multiplier));
-                        const newUsed = new Set(usedWords);
-                        newUsed.add(currentWord);
-                        setUsedWords(newUsed);
-                        const nextWord = getRandomWord(selectedCategory);
-                        setCurrentWord(nextWord);
-
-                        setTimeout(() => setTiltFeedback(null), 500);
-                        actionTriggered = true;
-                    }
-                    // Tilt UP (phone tilts up toward forehead) = skip
-                    // In landscape, gamma goes positive when tilting up
-                    else if (gamma > 25) {
-                        console.log('SKIP detected (landscape up tilt)');
-                        tiltCooldownRef.current = now;
-                        setTiltFeedback('skip');
-                        playSound(600, 0.15);
-
-                        setSkipped(prev => prev + 1);
-                        const newUsed = new Set(usedWords);
-                        newUsed.add(currentWord);
-                        setUsedWords(newUsed);
-                        const nextWord = getRandomWord(selectedCategory);
-                        setCurrentWord(nextWord);
-
-                        setTimeout(() => setTiltFeedback(null), 500);
-                        actionTriggered = true;
-                    }
-                }
-                // In portrait mode (traditional tilt up/down)
-                else {
-                    // Tilt down (phone toward forehead goes down) = correct
-                    // beta < -30 means tilted down significantly
-                    if (beta < -30) {
-                        console.log('CORRECT detected (portrait down tilt)');
-                        tiltCooldownRef.current = now;
-                        setTiltFeedback('correct');
-                        playSound(1200, 0.15);
-
-                        const multiplier = getScoreMultiplier();
-                        setScore(prev => prev + Math.floor(1 * multiplier));
-                        const newUsed = new Set(usedWords);
-                        newUsed.add(currentWord);
-                        setUsedWords(newUsed);
-                        const nextWord = getRandomWord(selectedCategory);
-                        setCurrentWord(nextWord);
-
-                        setTimeout(() => setTiltFeedback(null), 500);
-                        actionTriggered = true;
-                    }
-                    // Tilt up (phone toward forehead goes up) = skip
-                    // beta > 30 means tilted up significantly
-                    else if (beta > 30) {
-                        console.log('SKIP detected (portrait up tilt)');
-                        tiltCooldownRef.current = now;
-                        setTiltFeedback('skip');
-                        playSound(600, 0.15);
-
-                        setSkipped(prev => prev + 1);
-                        const newUsed = new Set(usedWords);
-                        newUsed.add(currentWord);
-                        setUsedWords(newUsed);
-                        const nextWord = getRandomWord(selectedCategory);
-                        setCurrentWord(nextWord);
-
-                        setTimeout(() => setTiltFeedback(null), 500);
-                        actionTriggered = true;
-                    }
-                }
-
-                if (actionTriggered) {
-                    console.log('Action triggered successfully');
-                }
-            }, [usedWords, currentWord, selectedCategory, screenOrientation]);
-
-            // Toggle tilt controls
-            const toggleTiltControl = () => {
-                if (!deviceSupportsOrientation) return;
-                const newState = !tiltEnabled;
-                setTiltEnabled(newState);
-
-                if (newState && gameState === 'playing') {
-                    // Request permission for iOS 13+
-                    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                        DeviceOrientationEvent.requestPermission()
-                            .then(permissionState => {
-                                if (permissionState === 'granted') {
-                                    window.addEventListener('deviceorientation', handleTilt);
-                                    console.log('Tilt controls enabled (iOS)');
-                                }
-                            })
-                            .catch(console.error);
-                    } else {
-                        // Non-iOS 13+ devices
-                        window.addEventListener('deviceorientation', handleTilt);
-                        console.log('Tilt controls enabled (Android)');
-                    }
-                } else {
-                    window.removeEventListener('deviceorientation', handleTilt);
-                    console.log('Tilt controls disabled');
-                }
-            };
-
-            // Detect device type and handle orientation
+            // Detect device type
             useEffect(() => {
                 const detected = detectDevice();
                 setDeviceType(detected);
@@ -3131,13 +2993,6 @@
                     (typeof DeviceOrientationEvent !== 'undefined' || 'ontouchstart' in window);
                 setDeviceSupportsOrientation(hasOrientation);
             }, []);
-
-            // Cleanup tilt event listener
-            useEffect(() => {
-                return () => {
-                    window.removeEventListener('deviceorientation', handleTilt);
-                };
-            }, [tiltEnabled, gameState]);
 
             // Get random word from category
             const getRandomWord = (category) => {
@@ -3795,27 +3650,10 @@
             if (gameState === 'playing' && currentWord) {
                 return (
                     <div className={`container game-optimized ${selectedCategory ? `theme-${selectedCategory}` : ''}`} style={{ animation: 'pageTransitionFadeIn 0.6s ease-out' }}>
-                        {tiltFeedback && (
-                            <>
-                                <div className={`tilt-feedback ${tiltFeedback}`}></div>
-                                <div className={`tilt-indicator ${tiltFeedback}`}>
-                                    {tiltFeedback === 'correct' ? '✓' : '⏭️'}
-                                </div>
-                            </>
-                        )}
                         <div className="header">
                             <button className="fullscreen-btn" onClick={toggleFullscreen} title="Toggle fullscreen">
                                 {isFullscreen ? '⛶' : '⛶'}
                             </button>
-                            {deviceSupportsOrientation && (
-                                <button
-                                    className={`tilt-toggle ${tiltEnabled ? 'active' : ''}`}
-                                    onClick={toggleTiltControl}
-                                    title={tiltEnabled ? 'Disable tilt controls' : 'Enable tilt controls'}
-                                >
-                                    📱
-                                </button>
-                            )}
                             <div className="title">🎭 Charades</div>
                         </div>
 
@@ -3900,21 +3738,6 @@
                                         }}>Skipped!</div>
                                     </div>
                                 </>
-                            )}
-                            {deviceSupportsOrientation && (
-                                <div className={`tilt-info ${tiltEnabled ? 'active' : ''}`}>
-                                    {tiltEnabled ? (
-                                        <>
-                                            🎮 Tilt controls <span className="tilt-status">ACTIVE</span>
-                                            <br />
-                                            <small>Hold phone to forehead • Tilt down ↓ for correct • Tilt up ↑ to skip</small>
-                                        </>
-                                    ) : (
-                                        <>
-                                            Enable tilt controls to play like real Charades
-                                        </>
-                                    )}
-                                </div>
                             )}
                             <div className="stats">
                                 <div className="stat-box">
