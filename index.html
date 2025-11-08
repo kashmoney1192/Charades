@@ -2971,6 +2971,12 @@
                 }
             }
 
+            // Handle orientation changes
+            const handleOrientationChange = () => {
+                // Just a no-op handler to prevent errors
+                // The app handles responsive design via CSS
+            };
+
             // Detect device type
             useEffect(() => {
                 const detected = detectDevice();
