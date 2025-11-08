@@ -12,19 +12,25 @@ struct ContentView: View {
     @State private var timer: Timer?
     @State private var soundEnabled = true
     @State private var actionFeedback: String? = nil
+    @State private var searchText = ""
 
-    let categories = [
-        "Movies": ["Avatar", "Inception", "Titanic", "Forrest Gump", "The Matrix", "Interstellar", "Gladiator", "The Dark Knight", "Pulp Fiction", "Fight Club"],
-        "Animals": ["Lion", "Elephant", "Penguin", "Dolphin", "Cheetah", "Giraffe", "Eagle", "Octopus", "Tiger", "Panda"],
-        "Sports": ["Basketball", "Football", "Tennis", "Swimming", "Gymnastics", "Skateboarding", "Surfing", "Boxing", "Hockey", "Golf"],
-        "Celebrities": ["Beyoncé", "Drake", "Taylor Swift", "Tom Cruise", "Oprah", "Elon Musk", "Rihanna", "Brad Pitt", "Dwayne Johnson", "Meryl Streep"],
-        "Foods": ["Pizza", "Sushi", "Burger", "Pasta", "Tacos", "Spaghetti", "Steak", "Donut", "Ice Cream", "Chicken"],
-        "Jobs": ["Doctor", "Teacher", "Chef", "Pilot", "Astronaut", "Engineer", "Artist", "Musician", "Firefighter", "Dancer"],
+    let categories: [String: [String]] = [
+        "🎬 Movies": ["The Shawshank Redemption", "Inception", "The Dark Knight", "Forrest Gump", "Pulp Fiction", "The Matrix", "Titanic", "Avatar", "Interstellar", "Parasite", "Avengers Endgame", "Joker", "The Quiet Place", "Knives Out", "Dune", "Back to the Future", "Jurassic Park", "E.T.", "Home Alone", "The Godfather", "Gladiator", "The Lion King", "Frozen", "Toy Story", "Spider-Man", "Batman Begins", "The Avengers", "Iron Man", "Captain America", "Thor", "Black Panther", "Wonder Woman", "Aquaman", "The Flash", "Godzilla", "King Kong", "Jaws"],
+        "👻 Horror Movies": ["The Exorcist", "The Shining", "Halloween", "Friday the 13th", "A Nightmare on Elm Street", "Scream", "The Ring", "Saw", "Jaws", "Alien", "Aliens", "Poltergeist", "The Sixth Sense", "The Conjuring", "Insidious", "Sinister", "The Babadook", "Hereditary", "Midsommar", "Get Out", "Us", "Candyman", "It Follows", "The Witch"],
+        "🎃 Halloween": ["Trick or Treat", "Jack o Lantern", "Pumpkin", "Candy", "Costume", "Ghost", "Skeleton", "Witch", "Vampire", "Zombie", "Mummy", "Frankenstein", "Werewolf", "Devil", "Demon", "Scarecrow", "Black Cat", "Bat", "Spider", "Haunted House", "Cemetery", "Tombstone"],
+        "🦁 Animals": ["Lion", "Tiger", "Elephant", "Giraffe", "Penguin", "Eagle", "Dolphin", "Octopus", "Kangaroo", "Sloth", "Flamingo", "Chameleon", "Porcupine", "Hedgehog", "Koala", "Panda", "Cheetah", "Rhinoceros", "Zebra", "Peacock", "Butterfly", "Bee", "Ant", "Spider", "Scorpion", "Snake", "Crocodile", "Alligator", "Turtle", "Shark", "Whale", "Seal"],
+        "⭐ Celebrities": ["Taylor Swift", "Elon Musk", "Dwayne Johnson", "Oprah Winfrey", "Beyoncé", "Leonardo DiCaprio", "Scarlett Johansson", "Tom Cruise", "Cristiano Ronaldo", "Lionel Messi", "Billie Eilish", "The Rock", "Kim Kardashian", "Kanye West", "Ariana Grande", "Harry Styles", "Zendaya", "Timothée Chalamet", "Margot Robbie", "Brad Pitt"],
+        "📺 TV Shows": ["The Office", "Friends", "Breaking Bad", "Game of Thrones", "The Crown", "Stranger Things", "The Mandalorian", "Succession", "True Detective", "Mindhunter", "Sherlock", "Doctor Who", "The Expanse", "The Witcher", "Peaky Blinders", "Westworld", "Dark", "Chernobyl", "The Marvelous Mrs. Maisel", "The Last of Us"],
+        "🏆 Sports": ["Basketball", "Football", "Tennis", "Swimming", "Gymnastics", "Skateboarding", "Surfing", "Boxing", "Hockey", "Golf", "Baseball", "Cricket", "Rugby", "Volleyball", "Badminton", "Table Tennis", "Ice Skating", "Skiing", "Snowboarding", "Lacrosse"],
+        "🍕 Food": ["Pizza", "Sushi", "Burger", "Pasta", "Tacos", "Spaghetti", "Steak", "Donut", "Ice Cream", "Chicken", "Chocolate", "Cookies", "Cake", "Sandwich", "Fries", "Hot Dog", "Salad", "Soup", "Rice", "Bread"],
+        "🎵 Music Artists": ["Taylor Swift", "The Weeknd", "Drake", "Rihanna", "Lady Gaga", "Beyoncé", "Eminem", "Jay-Z", "Post Malone", "Billie Eilish", "Ariana Grande", "Ed Sheeran", "Coldplay", "Shakira", "Britney Spears", "Madonna", "Kanye West", "Travis Scott", "Khalid", "Dua Lipa"],
+        "🎮 Video Games": ["Super Mario Bros", "The Legend of Zelda", "Minecraft", "Fortnite", "Call of Duty", "Grand Theft Auto", "Halo", "Elden Ring", "Dark Souls", "The Witcher 3", "Cyberpunk 2077", "Skyrim", "Final Fantasy VII", "Metal Gear Solid", "Fallout 4", "Red Dead Redemption", "Overwatch", "League of Legends", "Dota 2", "Counter-Strike"],
+        "🌍 Countries": ["France", "Japan", "Brazil", "Mexico", "Germany", "Spain", "Italy", "Canada", "Australia", "India", "China", "Russia", "Egypt", "Thailand", "Greece", "Switzerland", "Netherlands", "Singapore", "New Zealand", "Iceland"],
+        "🏢 Jobs": ["Doctor", "Teacher", "Chef", "Pilot", "Astronaut", "Engineer", "Artist", "Musician", "Firefighter", "Dancer", "Lawyer", "Nurse", "Architect", "Scientist", "Electrician", "Plumber", "Carpenter", "Mechanic", "Police Officer", "Programmer"],
     ]
 
     var body: some View {
         ZStack {
-            // Background
             LinearGradient(gradient: Gradient(colors: [Color(red: 0.05, green: 0.28, blue: 0.64), Color(red: 0.12, green: 0.53, blue: 0.90)]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
 
@@ -130,8 +136,9 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.white.opacity(0.15))
                     .cornerRadius(15)
+                    .lineLimit(3)
 
-                Text("Use Volume Buttons:")
+                Text("Use Volume Buttons or Tap Below:")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.white.opacity(0.8))
 
@@ -140,8 +147,8 @@ struct ContentView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "speaker.slash")
                                 .font(.system(size: 24))
-                            Text("Skip")
-                                .font(.system(size: 12, weight: .semibold))
+                            Text("Skip (Vol +)")
+                                .font(.system(size: 11, weight: .semibold))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(15)
@@ -154,8 +161,8 @@ struct ContentView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "speaker.wave.3")
                                 .font(.system(size: 24))
-                            Text("Correct")
-                                .font(.system(size: 12, weight: .semibold))
+                            Text("Correct (Vol -)")
+                                .font(.system(size: 11, weight: .semibold))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(15)
@@ -179,7 +186,7 @@ struct ContentView: View {
             }
         }
         .padding()
-        .scaleEffect(actionFeedback == "correct" ? 1.1 : 1.0)
+        .scaleEffect(actionFeedback == "correct" ? 1.05 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: actionFeedback)
     }
 
@@ -291,28 +298,25 @@ struct ContentView: View {
     func setupVolumeButtonDetection() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.playback, mode: .default, options: [])
+            try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers])
             try audioSession.setActive(true)
         } catch {
             print("Error setting up audio session: \(error)")
         }
 
-        // Setup media controls for volume button detection
         setupMediaRemoteCommands()
     }
 
     func setupMediaRemoteCommands() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
-        // Volume Down = Correct
         commandCenter.nextTrackCommand.addTarget { _ in
-            handleCorrect()
+            self.handleSkip()
             return .success
         }
 
-        // Volume Up = Skip
         commandCenter.previousTrackCommand.addTarget { _ in
-            handleSkip()
+            self.handleCorrect()
             return .success
         }
     }
@@ -321,20 +325,10 @@ struct ContentView: View {
     func playSound(frequency: Double) {
         guard soundEnabled else { return }
 
-        let audioEngine = AVAudioEngine()
         let audioSession = AVAudioSession.sharedInstance()
-
         do {
-            try audioSession.setCategory(.playback, mode: .default, options: [])
+            try audioSession.setCategory(.playback, mode: .default, options: [.duckOthers])
             try audioSession.setActive(true)
-
-            let output = audioEngine.outputNode
-            let mixer = AVAudioMixerNode()
-            audioEngine.attach(mixer)
-
-            if !audioEngine.isRunning {
-                try audioEngine.start()
-            }
         } catch {
             print("Audio setup failed: \(error)")
         }
