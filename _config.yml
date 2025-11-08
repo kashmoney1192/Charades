@@ -1,0 +1,14 @@
+# GitHub Pages Jekyll configuration
+# This file enables proper serving of index.html
+
+# Build settings
+markdown: kramdown
+exclude:
+  - README.md
+  - QUICK_START.sh
+  - .gitignore
+  - Charades Free/
+
+# Serve index.html directly
+include:
+  - index.html
