@@ -3049,72 +3049,62 @@
                 return () => clearInterval(timerRef.current);
             }, [gameState]);
 
-            // Volume button detection for Skip (Volume UP) and Correct (Volume DOWN)
+            // Volume button detection using Media Session API
             useEffect(() => {
-                if (gameState !== 'playing') return;
-
-                let lastVolumeTime = 0;
-                let volumePollInterval = null;
-                let lastVolumeLevel = 0.5;
-                let initialVolumeSet = false;
-
-                // Request permission for volume monitoring on iOS
-                const requestVolumePermission = async () => {
-                    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-                        try {
-                            const permission = await DeviceMotionEvent.requestPermission();
-                            if (permission === 'granted') {
-                                console.log('📱 Volume button monitoring enabled');
-                            }
-                        } catch (e) {
-                            console.log('⚠️ Volume permission request dismissed');
-                        }
+                if (gameState !== 'playing') {
+                    // Cleanup when not playing
+                    if (navigator.mediaSession) {
+                        navigator.mediaSession.setActionHandler('previoustrack', null);
+                        navigator.mediaSession.setActionHandler('nexttrack', null);
                     }
-                };
+                    return;
+                }
 
-                requestVolumePermission();
+                console.log('🎮 Volume button controls activated');
 
-                // Listen for keyboard events (works on some devices and simulators)
-                const handleKeyDown = (e) => {
-                    const now = Date.now();
-                    if (now - lastVolumeTime < 300) return; // Cooldown
-
-                    // Volume Down = ArrowDown key
-                    if (e.keyCode === 40 || e.key === 'ArrowDown') {
-                        e.preventDefault();
+                // Use Media Session API for volume button detection
+                if (navigator.mediaSession) {
+                    // Volume DOWN / Previous Track = Correct
+                    navigator.mediaSession.setActionHandler('previoustrack', () => {
                         console.log('🔊 Volume DOWN pressed → Correct');
-                        lastVolumeTime = now;
+                        handleCorrect();
+                    });
+
+                    // Volume UP / Next Track = Skip
+                    navigator.mediaSession.setActionHandler('nexttrack', () => {
+                        console.log('🔊 Volume UP pressed → Skip');
+                        handleSkip();
+                    });
+
+                    console.log('✅ Media Session API handlers set');
+                }
+
+                // Keyboard fallback for testing (Arrow keys)
+                const handleKeyDown = (e) => {
+                    if (gameState !== 'playing') return;
+
+                    // ArrowDown = Volume Down = Correct
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        console.log('⌨️ ArrowDown pressed → Correct');
                         handleCorrect();
                     }
-                    // Volume Up = ArrowUp key
-                    else if (e.keyCode === 38 || e.key === 'ArrowUp') {
+                    // ArrowUp = Volume Up = Skip
+                    else if (e.key === 'ArrowUp') {
                         e.preventDefault();
-                        console.log('🔊 Volume UP pressed → Skip');
-                        lastVolumeTime = now;
+                        console.log('⌨️ ArrowUp pressed → Skip');
                         handleSkip();
                     }
                 };
 
-                // Add keyboard listener for fallback detection
-                window.addEventListener('keydown', handleKeyDown);
-
-                // Try to detect actual volume via Web Audio API (limited but worth trying)
-                const detectVolumeViaAudio = () => {
-                    try {
-                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                        if (audioContext.state === 'suspended') {
-                            audioContext.resume();
-                        }
-                    } catch (e) {
-                        console.log('⚠️ Web Audio API not available');
-                    }
-                };
-
-                detectVolumeViaAudio();
+                window.addEventListener('keydown', handleKeyDown, true);
 
                 return () => {
-                    window.removeEventListener('keydown', handleKeyDown);
-                    if (volumePollInterval) clearInterval(volumePollInterval);
+                    window.removeEventListener('keydown', handleKeyDown, true);
+                    if (navigator.mediaSession) {
+                        navigator.mediaSession.setActionHandler('previoustrack', null);
+                        navigator.mediaSession.setActionHandler('nexttrack', null);
+                    }
                 };
             }, [gameState, handleCorrect, handleSkip]);
 
